@@ -1,0 +1,91 @@
+.attendence_marking_field{
+    height: 80vh;
+    width: 100%;
+    background-color: var(--color-palet-Bg-);
+    border-bottom: 1px solid;
+    border-radius: .8em;
+
+}
+
+.attendence_content{
+    height: 100%;
+    box-sizing: border-box;
+    padding: 0.4rem .5rem;
+    overflow: scroll;
+}
+
+.showed_content{
+    box-sizing: border-box;
+    padding: 1rem 0;
+    font-family: "poppins";
+    text-align: center;
+    margin: 0px auto;
+}
+
+.image{
+    display: block;
+    width: 3rem;
+    height: 3rem;
+    background-color: var(--color-palet-type2-);
+    border-radius: 50%;
+    border: 1px solid;
+}
+
+.userDetails{
+    display: flex;
+    text-align: left;
+    gap: .4rem;
+    margin-bottom: 1rem;
+}
+
+.headings{
+    box-sizing: border-box;
+    padding:1rem .2rem;
+}
+
+.headings h1{
+    text-transform: capitalize;
+    font-size: 1.5rem;
+}
+
+.box{
+    border: 1px solid;
+    padding: 1rem .5rem;
+    margin-bottom: .5rem;
+    border-radius: .5rem;
+}
+
+.box h1{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.box >h1 >span{
+    font-size: 1rem;
+}
+
+.markPresent{
+    background-color: green;
+}
+
+.markAbsent{
+    background-color: red;
+}
+
+.markPresent{
+    background-color: green;
+}
+.markAbsent{
+    background-color: red;
+}
+
+.buttons button,.stopScan{
+    padding: .4rem .6rem;
+    font-family: "poppins", serif;
+    text-transform: capitalize;
+    border-radius: .4rem;
+    appearance: none;
+    font-weight: 600;
+
+}

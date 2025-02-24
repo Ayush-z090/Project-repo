@@ -1,0 +1,99 @@
+
+.link{
+    text-decoration: none;
+    color: var(--color-palet-type2-);
+    cursor: pointer;
+}
+
+.box{
+    width: calc(100% - 4rem);
+    height: 70%;
+    margin: 0px auto;
+    background-color: var(--color-palet-Bg-);
+    border-radius: .5rem;
+}
+
+.heading{
+    font-family:"Poppins", serif ;
+    padding: 2rem 1rem 1.5rem 1rem;
+    text-transform: capitalize;
+}
+.fieldset{
+    font-family:"Poppins", serif ;
+    text-transform: capitalize;
+    border: none;
+    box-sizing: border-box;
+    padding: .8rem 1rem 0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+
+}
+.input_field{
+    display: flex;
+    position: relative;
+    height: 2.2rem;
+    border-radius: .5rem;
+    border: 1px solid  var(--color-palet-type2-);
+    padding: 0 .4rem;
+    background-color: rgba(128, 128, 128, 0.103);
+}
+
+.input_field input{
+    background-color: transparent;
+    appearance: none;
+    border: none;
+    outline: none;
+    width: 100%;
+    cursor: pointer;
+
+}
+
+.input_field label,
+.role_drop_down label{
+    position: absolute;
+    left: .2rem;
+    top: -1.48rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.role{
+    appearance: none;
+    background-color: transparent;
+    height: 2.2rem;
+    border: 1px solid var(--color-palet-type2-);
+    width: 100%;
+    outline: none;
+    border-radius: .5rem;
+}
+
+.input_field:has(input:focus:invalid){border: 1px solid red;}
+
+option{
+    text-align: center;
+}
+.role_drop_down{
+    position: relative;
+    background-color:rgba(128, 128, 128, 0.103) ;
+    width: 50%;
+    align-self: center;
+
+}
+.role_drop_down label{
+ top: .34rem;
+ left: -4rem;
+}
+
+.button{
+    height: 2.2rem;
+    width: 10rem;
+    align-self: center;
+    appearance: none;
+    border:1px solid;
+    font-family: inherit;
+    border-radius: .5rem;
+    background-color: black;
+    color: var(--color-palet-Bg-);
+    cursor: pointer;
+}

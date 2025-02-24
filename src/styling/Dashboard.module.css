@@ -1,0 +1,123 @@
+.dashborad_layout{
+    position: relative;
+}
+
+.menu_side_bar{
+    width: 100%;
+    height: 30vh;
+    position: absolute;
+    background-color: var(--color-palet-Bg-);
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "poppins";
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    gap: 1rem;
+    transform: translateY(-14rem);
+    box-shadow: 0px 4px 10px 0px ;
+}
+
+.section_component{
+    width: calc(100% - 10px);
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.section_component .section{
+    box-sizing: border-box;
+    padding: .8em .4rem;
+    color: var(--color-palet-text-);
+    text-decoration: none;
+}
+
+.section .underLine{
+    width: 0;
+    opacity: 0;
+    border-radius: .4rem;
+}
+
+.section:focus .underLine{
+    width: 100%;
+    opacity: 1;
+}
+
+.menubar_layout{
+    height: 4rem;
+    box-sizing: border-box;
+    padding: .6rem 1.5rem;
+    width: 100%;
+    display: flex;
+    gap: 5rem;
+    align-items: center;
+}
+
+.menu_icon{
+    height: 1.5rem;
+    width: 2rem;
+    display: block;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.menu_icon .bar{
+    height: 0.25rem;
+    width: 100%;
+    background-color: black;
+    border-radius: .1rem;
+}
+
+
+.dashborad_section_content{
+    width: 100%;
+    height: 86vh;
+    box-sizing: border-box;
+    padding: 1rem .8rem;
+    border-radius: 2rem;
+    background-color: var(--color-palet-type2-);
+    margin-top: .5rem;
+}
+
+.menubar_layout > h1{
+    text-transform: capitalize;
+    font-family: "poppins",serif;
+    font-weight: 400
+}
+
+/* ---------------- transitonal part --------------- */
+
+.hide{
+    transform:translateY(-0.5rem) ;
+}
+
+.show{
+    position: relative;
+    z-index:3;
+}
+.show .bar:nth-child(1){
+    position: relative;
+    transform: translateY(10px) rotate(45deg);
+}
+
+.show .bar:nth-child(2){
+    opacity: 0;
+}
+.show .bar:nth-child(3){
+    position: relative;
+    transform: translateY(-10px) rotate(-45deg);
+}
+
+.menu_side_bar,
+.section hr{
+    transition: transform .4s ease-in,
+                width .3s ease-in-out,
+                opacity .2s ease;
+}
+
+.bar{
+    transition: transform .1s ease-out,
+    opacity .1s ease;
+}

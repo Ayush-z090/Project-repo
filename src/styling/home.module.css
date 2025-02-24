@@ -1,0 +1,229 @@
+form *:not(.role_drop_down){
+    appearance: none;
+}
+
+.link_section p a{
+    text-decoration: none;
+    color: var(--color-palet-type2-);
+    
+}
+
+
+.home_content{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    position: relative;
+    text-align: center;
+    text-transform:capitalize ;
+
+}
+
+.hgroup h1,
+.role_query h1{
+    margin-bottom: .8rem;
+    font-size: 1.9rem;
+    line-height: 1.3;
+}
+
+.hgroup p{
+    width: 85vw;
+    margin: 0px auto;
+
+}
+
+.role_query{
+    text-align: center;
+    text-transform: capitalize;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    /* position: absolute; */
+    width: calc(100% - .6rem);
+    left: .3rem;
+    top: 5rem;
+}
+
+.boldSpanText{
+    font-weight: bolder;
+    color: var(--color-palet-type2-);
+}
+
+
+.link_section{
+    margin: 0px auto;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+
+
+
+.link_section button, #formButton{
+    padding: .8rem 7rem;
+    appearance: none;
+    color:var(--color-palet-Bg-) ;
+    border: none;
+    border-radius: .5rem;
+    margin-bottom: .8rem;
+    background-color: var(--color-palet-text-);
+    text-transform: capitalize;
+    transition: background-color .1s ease-in , box-shadow .2s ease;
+    box-shadow: 1px 1px .5rem -5px var(--color-palet-text-);
+
+}
+
+
+.fieldset {
+    width: calc(100% - 2rem);
+    border: 1px solid var(--color-palet-1-);
+    border-radius: .4rem;
+    box-sizing: border-box;
+    padding: 3.4rem 0 1rem 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items:center ;
+    gap: 2rem;
+    border: none;
+}
+
+.role_drop_down{
+    width: fit-content;
+    position: relative;
+}
+.role_drop_down::after{
+    content: "▼";
+    position: absolute;
+    right: .3rem;
+    top: .1rem;
+    transform: rotate(90deg);
+
+}
+
+form h5{
+    font-weight: 500;
+    max-width: 80%;
+    margin: 0px auto; 
+    font-size:1.5rem ;
+}
+.role_drop_down select{
+    width: 100%;
+    outline: none;
+    cursor: pointer;
+    padding: .4rem 1.7rem .4rem .3rem;
+    border-radius: .2rem;
+    text-transform: capitalize;
+    box-shadow: 1px 1px .5rem -5px var(--color-palet-1-);
+}
+
+.role_drop_down select option{
+    padding: 4rem ;
+}
+
+.input_field{
+    position: relative;
+    display: flex;
+    width: calc(60% + .3rem);
+    height: 2.1rem;
+    padding: .3rem;
+    border: 1px solid rgba(128, 128, 128, 0.47);
+    border-radius: .4rem;
+    background-color: white;
+    box-shadow: 1px 1px .5rem -5px var(--color-palet-1-);
+
+}
+
+.input_field input{
+    width: 100%;
+    border: none;
+    outline: none;
+}
+
+.input_field > label{
+    position: absolute;
+    left: 1rem;
+    top: .7rem;
+}
+
+#formButton{
+    width: 50%;
+    padding: .7rem 0;
+}
+
+input[type="text"]{
+    padding-left: 6rem;
+}
+
+input[type="email"]{
+    padding-left: 4rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+.link_section button:active{
+    background-color: var(--color-palet-3-);
+    box-shadow: 0px 0px 4px 0px var(--color-palet-4-);
+}
+
+label:has(+ input:focus){
+    left: 0;
+    top: -1.5rem;
+}
+.role_drop_down:focus-within::after{
+transform: rotate(0deg);
+}
+
+.input_field:has(input:focus){border: 1px solid  var(--color-palet-text-);}
+.input_field input:focus{
+    padding: 0;
+}
+
+.role_query,
+.home_content,
+.input_field > label,
+.role_drop_down::after,
+.input_field input,
+.input_field{
+    transition: opacity .2s ease ,
+     z-index .3s ease-in-out,
+     transform .2s ease,
+     left .2s ease-out,
+     top .2s ease-out,
+     padding .3s ease,
+     border .34s linear
+     
+}
+
+
+.input_field:has(input:focus:invalid){
+    border:1px solid red;
+}
+
+label:has(+ input){
+    color:rebeccapurple;
+}
+
+
+.invalid{
+    position: absolute;
+    top: -1.2rem;
+    right: 0;
+    font-size: .67rem;
+    color: red;
+    opacity: 0;
+}
+input:focus:invalid + .invalid{
+    opacity: 1;
+}
