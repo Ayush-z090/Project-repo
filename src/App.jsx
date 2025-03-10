@@ -7,11 +7,37 @@ import { LogIn } from './auth_login-signUp/login'
 import { DashBoard } from './dashBoard'
 import { UserHome } from './dashboardComponent/Userhome'
 import { Attendance } from './dashboardComponent/attendance'
+import { T_home } from "./teacher_section/TeacherHome";
+import { TeacherDashboard } from './DashboardTeacher'
+import { AttendSession } from './teacher_section/AttendenceSess'
 
 
 
 
 function App(){
+
+    let switchuser = ""
+
+    let student = (
+    <Route path="/user_dashboard" element={<DashBoard/>}>
+        <Route index element={<UserHome/>}/>
+        <Route path='Attendence' element={<Attendance/>} />
+    </Route>
+    )
+    
+    let teacher =(
+        <Route path="/admin_dashboard" element ={<TeacherDashboard/>}>
+
+            <Route index element={<T_home/>}/>
+            <Route path='Attendence' element={<AttendSession
+/>} />
+
+        </Route>
+    )
+
+
+
+
     return(
         <>
 
@@ -28,10 +54,7 @@ function App(){
                         <Route path='login' element={<LogIn/>}/>
                 </Route>
 
-                <Route path="/dashboard" element={<DashBoard/>}>
-                        <Route index element={<UserHome/>}/>
-                        <Route path='QrAttendenc' element={<Attendance/>} />
-                </Route>
+                { switchuser === "student"? student:teacher}
                 
             </Routes>
 

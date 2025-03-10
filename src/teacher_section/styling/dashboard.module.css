@@ -1,0 +1,23 @@
+.headerSec{
+    box-sizing: border-box;
+    padding:.8rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    border-bottom: 1px solid;
+    background-color: var(--color-palet-type2-);
+}
+.headerSec h1{
+    font-family: poppins;
+    font-size: 1.6rem;
+    text-transform: capitalize;
+    font-weight: 600;
+}
+
+/* .backColor{
+    height: 60%;
+    position: absolute;
+    width: 100%;
+    z-index: -1;
+    background-color: var(--color-palet-type2-);
+} */
