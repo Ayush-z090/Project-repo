@@ -10,6 +10,8 @@ import { Attendance } from './dashboardComponent/attendance'
 import { T_home } from "./teacher_section/TeacherHome";
 import { TeacherDashboard } from './DashboardTeacher'
 import { AttendSession } from './teacher_section/AttendenceSess'
+import { ManageStudent } from './teacher_section/attendanceMultiScript/Manage'
+import { StudentList } from './teacher_section/attendanceMultiScript/students'
 
 
 
@@ -29,9 +31,10 @@ function App(){
         <Route path="/admin_dashboard" element ={<TeacherDashboard/>}>
 
             <Route index element={<T_home/>}/>
-            <Route path='Attendence' element={<AttendSession
-/>} />
-
+            <Route path='Attendence' element={<AttendSession/>}>
+                    <Route index element={<StudentList/>}/>
+                    <Route path={"ManageStudent"} element={<ManageStudent/>}/>
+            </Route>
         </Route>
     )
 

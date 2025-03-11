@@ -4,7 +4,6 @@
     display: flex;
     align-items: center;
     gap: 2rem;
-    border-bottom: 1px solid;
     background-color: var(--color-palet-type2-);
 }
 .headerSec h1{
