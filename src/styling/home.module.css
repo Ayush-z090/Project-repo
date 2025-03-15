@@ -154,11 +154,11 @@ form h5{
     padding: .7rem 0;
 }
 
-input[type="text"]{
+.input_field [type="text"]{
     padding-left: 6rem;
 }
 
-input[type="email"]{
+.input_field [type="email"]{
     padding-left: 4rem;
 }
 

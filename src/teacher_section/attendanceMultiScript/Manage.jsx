@@ -1,10 +1,11 @@
 import { useState } from "react"
 import styles from "../styling/Manage.module.css"
 import { addElment } from "../../JS_script/Addelemnt"
+import { FormPage } from "../../auth_page"
 
 function ManageStudent(){
 
-    let [isSessionStart,setSession] = useState(true)
+    let [isSessionStart,setSession] = useState(false)
     let [SessChossenYear,setSessData] = useState(null)
     let emptyFieldElement = (<div className={styles.emptyField}>
         <h1>no Session added yet</h1>
@@ -80,23 +81,20 @@ function Sess_Form({setData,Data,setSessionCondition}){
 
 function Sess_elemnt({courseName,Year}){
     
-    let AddedRollNum = []
-
+    let [AddedRollNum,setAddedRollnum] = useState([])
     let [num,setNum] = useState(0)
-    let [rollNum,setRollNum]=useState(null)
 
     let AddStudentFormHandling =(e)=>{
 
         e.preventDefault()
         let formData = new FormData(e.target)
-        let Roll_number = formData.get("Rollnumber")
-        if ( !AddedRollNum.includes(Roll_number)){
-            AddedRollNum.push(Roll_number)
-            setRollNum(Roll_number)
+        let Roll_number = formData.get("Rollnumber").trim()
+        if ( !AddedRollNum.includes(Roll_number) && Roll_number.trim() !== ""){
+            setAddedRollnum([...AddedRollNum,Roll_number])
             setNum(++num)
         }
     }
-    console.log(rollNum)
+    
 
     return(
         <>
@@ -119,7 +117,14 @@ function Sess_elemnt({courseName,Year}){
                 <h4>Roll number</h4>
             </div>
             <div className={styles.studentList} id="addElementField">
-                <StudntDetailsform/>
+                {AddedRollNum.map(a=>
+                <StudntDetailsform 
+                Sno={AddedRollNum.indexOf(a)+" :"} 
+                rollnumber={a} 
+                key={a} 
+                RollNumCollection={AddedRollNum}
+                setCollection = {setAddedRollnum}
+                />)}
             </div>
         </div>
 
@@ -128,13 +133,20 @@ function Sess_elemnt({courseName,Year}){
 
 }
 
-function StudntDetailsform({Sno,rollnumber}){
+function StudntDetailsform({Sno,rollnumber,RollNumCollection,setCollection}){
+
+    let FormHandling=(e)=>{
+        e.preventDefault()
+        setCollection(removeElement(RollNumCollection,rollnumber))
+        
+    }
+
     return(
         <>
-            <form className={styles.studentAddForm}>
+            <form className={styles.studentAddForm} onSubmit={FormHandling}>
                <ul>
-                <li>1</li>
-                <li> <input type="number" value={"200000000000000"} readOnly/></li>
+                <li style={{width:"2rem"}}>{Sno}</li>
+                <li> <input type="number" value={rollnumber} readOnly /></li>
                 <li><button>remove</button></li>
                </ul>
             </form>
@@ -143,6 +155,11 @@ function StudntDetailsform({Sno,rollnumber}){
 
 }
 
+function removeElement(arr,element){
+    let index = arr.indexOf(element)
+    let NewArr = [...arr.slice(0,index),...arr.slice(index+1,)]
+    return NewArr
+}
 
 
 

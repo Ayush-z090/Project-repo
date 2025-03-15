@@ -70,6 +70,7 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    overflow: hidden;
 
 }
 
@@ -138,6 +139,11 @@
 .formStudentupdation .input_field input{
     width: 70%;
     border-radius: .5em;
+    border: none;
+    outline: none;
+    box-shadow: 0px 0px 4px 0px;
+    box-sizing: border-box;
+    padding: .6rem;
 }
 
 .formStudentupdation button,.studentAddForm ul button{
@@ -169,17 +175,36 @@
 .stuHeading{
     display: flex;
     gap: 2.3rem;
-    padding: .4rem 1.2rem .4rem .8rem;
+    padding: .8rem 1.2rem .4rem 1.4rem;
     border-top: 2px solid var(--color-palet-type2-)
+}
+
+.studentList{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: .8rem;
+    padding: .5rem 0;
+
+}
+
+.studentAddForm{
+    width: calc(100% - 20px);
+
 }
 
 .studentAddForm ul{
     display: flex;
     list-style: none;
     box-sizing: border-box;
-    padding: .6rem 1.4rem;   
+    padding: .4rem 1.4rem;   
     gap: 3rem; 
     align-items: center;
+    width: (100% - 20px);
+    border-radius: .34rem;
+    box-shadow: 0px 0px 5px 0px;
+    background-color: var(--color-palet-Bg-);
 }
 
 .studentAddForm ul button{
@@ -188,6 +213,8 @@
 
 .studentAddForm li{
     height: fit-content;
+    flex-shrink: .5;
+    
 }
 
 .studentAddForm input{
@@ -196,5 +223,7 @@
     border: none;
     width: 8rem;
     outline: none;
-    cursor:;
+    font-family: poppins,serif;
+    font-size: 1.1rem;
+
 }

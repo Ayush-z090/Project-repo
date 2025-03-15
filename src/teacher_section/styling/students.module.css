@@ -1,0 +1,83 @@
+.student_element{
+    box-sizing: border-box;
+    padding: .2rem .4rem;
+    width: calc(100% - 16px);
+    display: flex;
+    font-family: poppins,serif;
+    border: 1px solid;
+    margin: 0px auto;
+    border-radius: .5rem;
+}
+
+.student_element span{
+    text-transform: capitalize;
+    text-align: left;
+    font-size: .8rem;
+    width: fit-content;
+    
+}
+.infoBody{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    justify-content: center;
+    padding: 0 .5rem;
+}
+
+.inputField{
+    height: 1.4rem;
+    width: fit-content;
+}
+
+.attendaceBody{
+    width: 50%;
+}
+
+.attendaceBody > h4{
+    font-size: .8rem;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.status_body{
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    width: 9rem;
+    padding: .3rem 0;
+    justify-content: space-between;
+}
+
+.status_body p {
+    font-size: .6rem;
+    text-transform: uppercase;
+
+}
+
+.status_body label{
+    position: relative;
+    display: block;
+    width: fit-content;
+    padding: .2rem .3rem;
+    font-size: .5rem;
+}
+
+.status_body label input[type="radio"]{
+    position: absolute;
+    left: 0;
+    top: 0;
+    border: 1px solid;
+    width: 100%;
+    height: 100%;
+    border-radius: .3rem;
+    z-index: -1;
+}
+
+.status_body input:checked{
+    background-color: var(--color-palet-type2-);
+}
+
+.input_area{
+    display: flex;
+    gap: .3rem;
+}
