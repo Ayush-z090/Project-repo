@@ -5,7 +5,7 @@ import styles from "../styling/students.module.css"
 function StudentList(){
     return(
         <>
-        <div className="stuDetails_Attendance">
+        <div className={styles.stuDetails_Attendance}>
             {students.map(data=><Student name={data.name} rollno={data.rollNumber} attendace_arr={data.attendance} key={data.rollNumber}/>    
 )}
          </div>
@@ -55,7 +55,7 @@ function RadioArea({name,attence}){
 
     let result=""
 
-    let[stats,setstats] = useState(false)
+    let[stats,setstats] = useState({time:name,present:attence === "P"})
     
     if (attence === "P"){
         result = true
@@ -63,9 +63,9 @@ function RadioArea({name,attence}){
     else{
         result= false
     }
-
-    function handleChange(){
-    
+    function handleChange(e){
+         const isPresent = e.target.value === "P"; // Check if "P" is selected
+         console.log(result)
     }
     return(
         <>
@@ -74,11 +74,11 @@ function RadioArea({name,attence}){
             <div className={styles.input_area}>
             <label>
                 present
-                <input type="radio" name={name} value="P" id="P" checked={result} onChange={handleChange}/>
+                <input type="radio" name={name} value="P" id="P" defaultChecked={result} onChange={handleChange}/>
             </label>
             <label>
                 absent
-                <input type="radio" name={name} value="A" id="A"checked={!result}  onChange={handleChange}/>
+                <input type="radio" name={name} value="A" id="A" defaultChecked={!result}  onChange={handleChange}/>
             </label>
 
             </div>

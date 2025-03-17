@@ -5,8 +5,12 @@
     display: flex;
     font-family: poppins,serif;
     border: 1px solid;
-    margin: 0px auto;
+    margin: .6rem auto;
     border-radius: .5rem;
+}
+.stuDetails_Attendance{
+    overflow: scroll;
+    height: 82vh;
 }
 
 .student_element span{

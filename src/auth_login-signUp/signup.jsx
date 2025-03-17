@@ -1,10 +1,10 @@
-import { useNavigate } from "react-router"
+import { Navigate, useNavigate } from "react-router"
 import styles from "../styling/auth_style.module.css"
 import { conftirmPasword, validationPartNum, validationPartPass } from "../JS_script/Validation_inter";
 
 function SignUp(){
 
-    const naviage = useNavigate();
+    const navigate = useNavigate();
 
     function useNavigation(path){
         naviage(path)
@@ -13,6 +13,19 @@ function SignUp(){
     validationPartNum()
     validationPartPass()
     conftirmPasword()
+
+    let handleform = (e)=>{
+        e.preventDefault()
+        let formdata = new FormData(e.target)
+        let userData = {
+            "_userId":formdata.get("dataUserId"),
+            "Course":formdata.get("dataUserRole"),
+            "_userPassword" : formdata.get("confirmDataUserPassword")
+        }
+        console.log(userData)
+        navigate("/auth/login")
+    }
+
     
     return(
         <>
@@ -22,7 +35,7 @@ function SignUp(){
                     <h1>sign up</h1>
                     <p>already have a account? <a onClick={()=>{useNavigation("./login")}} className={styles.link}id="login" >login</a></p>
                 </hgroup>
-                <form action="" className={styles.form_field} id="signUp-form">
+                <form onSubmit={handleform} className={styles.form_field} id="signUp-form">
                     <fieldset className={styles.fieldset} aria-required="true">
                         <InputField 
                             labelText= "user id" 
@@ -45,13 +58,14 @@ function SignUp(){
                             labelText= "password" 
                             type="password" 
                             id="UserPassword"
-                            name="dataUserPassword"
                         />
 
                         <InputField 
                             labelText= "password" 
                             type="password" 
                             id="confirmUserPassword"
+                            name="confirmDataUserPassword"
+
                             
                         />
                         

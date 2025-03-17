@@ -8,14 +8,27 @@ function HomeForm(){
 
     const navigate = useNavigate();
 
-    let clickNavigation= ()=>{
+    // let clickNavigation= ()=>{
+    //     navigate("/auth")
+    // }
+
+    let handleChange = (e)=>{
+        e.preventDefault()
+        let formdata = new FormData(e.target)
+        let userinfo = {
+            "name":formdata.get("userName"),
+            "email":formdata.get("userEmail"),
+            "userRole":formdata.get("userRole")
+        }
+
         navigate("/auth")
+
     }
 
     validationPart()
     return(
         <>
-            <form action="www.foo.com" className={styles.role_query} >
+            <form onSubmit={handleChange} className={styles.role_query} >
                 <hgroup className={styles.hgroup}>
                     <h5>We just need a few details before getting you started</h5>
                 </hgroup>
@@ -24,7 +37,7 @@ function HomeForm(){
                     <InputField 
                     labelText="full name" 
                     inputId = "name" 
-                    name="username" 
+                    name="userName" 
                     type="text" 
                     pattern= "[a-zA-Z0-9_]+\s[a-zA-Z0-9_]+" 
                     inputValLen="18"

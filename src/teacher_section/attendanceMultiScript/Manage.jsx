@@ -5,8 +5,15 @@ import { FormPage } from "../../auth_page"
 
 function ManageStudent(){
 
+    // this hook tracks whether the session is started or not 
+    // initial state would be false ..
     let [isSessionStart,setSession] = useState(false)
+
+    // this hook tracks the sessional year ..
+    // the sessional year i.e. 1,2,3 depending on the teacher, which class year he/she is in 
     let [SessChossenYear,setSessData] = useState(null)
+
+    // this element is shown when the sessionn isnt started yet
     let emptyFieldElement = (<div className={styles.emptyField}>
         <h1>no Session added yet</h1>
     </div>)
@@ -19,6 +26,7 @@ function ManageStudent(){
             <hgroup className={styles.sessionalData}>
                 <h1>start session</h1>
             </hgroup>
+            
             <Sess_Form setData={setSessData} Data={SessChossenYear} setSessionCondition={setSession}/>
 
         </div>
@@ -31,9 +39,10 @@ function ManageStudent(){
             </p>
 
         </hgroup>
-
+        {/* shown the emptyFieldElemnt according to the issessionstart value*/ }
         {isSessionStart ? "":emptyFieldElement}
 
+        {/* if the session is start then Sess_elemnt will render with passed args*/ }
         {isSessionStart ? <Sess_elemnt courseName={"CSE"} Year={SessChossenYear}/> : ""}
         
         </>
@@ -43,14 +52,25 @@ function ManageStudent(){
 
 function Sess_Form({setData,Data,setSessionCondition}){
 
-    
+    // here the session logic is applied
+    // this function will be run when the form related to session is submitted..
     let  SessFormHandle = (e)=>{
+        // this will stop is default reload
         e.preventDefault()
+        // this will store the formdata refrence somehting like that
         let SessFormData = new FormData(e.target)
+        // Data is the year chosen in sess_Form so the logic applied here is...
+        // as the sessional data means for single class the sesional year can be 1,2or 3
+        // it cant be changed anytime
+        // so if data isnt equall to either 1,2 and 3 it means the year isnt choosen yet
+        // if data becomes  1,2 or 3 it means we have choose a sessional year so it cant be
+        // select twice so i use not eqall 
         if (Data !== '1' && Data !== '2' && Data !== '3'){
+            // set the selected sessional year
             setData(SessFormData.get("Year"))
+            // set sessinal value to true whch will render the sess_elemnt
+            setSessionCondition(true)
         }
-        setSessionCondition(true)
     }
 
     return(
@@ -81,9 +101,10 @@ function Sess_Form({setData,Data,setSessionCondition}){
 
 function Sess_elemnt({courseName,Year}){
     
+    // this hook keeps track of all the added roll numbers
     let [AddedRollNum,setAddedRollnum] = useState([])
-    let [num,setNum] = useState(0)
 
+    
     let AddStudentFormHandling =(e)=>{
 
         e.preventDefault()
@@ -91,7 +112,6 @@ function Sess_elemnt({courseName,Year}){
         let Roll_number = formData.get("Rollnumber").trim()
         if ( !AddedRollNum.includes(Roll_number) && Roll_number.trim() !== ""){
             setAddedRollnum([...AddedRollNum,Roll_number])
-            setNum(++num)
         }
     }
     
@@ -138,7 +158,6 @@ function StudntDetailsform({Sno,rollnumber,RollNumCollection,setCollection}){
     let FormHandling=(e)=>{
         e.preventDefault()
         setCollection(removeElement(RollNumCollection,rollnumber))
-        
     }
 
     return(
