@@ -18,7 +18,6 @@ import { StudentList } from './teacher_section/attendanceMultiScript/students'
 
 function App(){
 
-    let switchuser = ""
 
     let student = (
     <Route path="/user_dashboard" element={<DashBoard/>}>
@@ -57,7 +56,9 @@ function App(){
                         <Route path='login' element={<LogIn/>}/>
                 </Route>
 
-                { switchuser === "student"? student:teacher}
+                {student}
+                
+                {teacher}
                 
             </Routes>
 

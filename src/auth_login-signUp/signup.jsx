@@ -5,10 +5,8 @@ import { conftirmPasword, validationPartNum, validationPartPass } from "../JS_sc
 function SignUp(){
 
     const navigate = useNavigate();
+    let previous_FormData = JSON.parse(sessionStorage.getItem("userForm_one_Data"))
 
-    function useNavigation(path){
-        naviage(path)
-    }
 
     validationPartNum()
     validationPartPass()
@@ -18,6 +16,7 @@ function SignUp(){
         e.preventDefault()
         let formdata = new FormData(e.target)
         let userData = {
+            ...previous_FormData,
             "_userId":formdata.get("dataUserId"),
             "Course":formdata.get("dataUserRole"),
             "_userPassword" : formdata.get("confirmDataUserPassword")
@@ -33,7 +32,7 @@ function SignUp(){
                 <hgroup className={styles.heading}>
                     <a href="#" className={styles.link}>{"<--"}</a>
                     <h1>sign up</h1>
-                    <p>already have a account? <a onClick={()=>{useNavigation("./login")}} className={styles.link}id="login" >login</a></p>
+                    <p>already have a account? <a onClick={()=>{navigate("./login")}} className={styles.link}id="login" >login</a></p>
                 </hgroup>
                 <form onSubmit={handleform} className={styles.form_field} id="signUp-form">
                     <fieldset className={styles.fieldset} aria-required="true">

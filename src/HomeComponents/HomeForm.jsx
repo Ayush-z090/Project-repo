@@ -8,10 +8,6 @@ function HomeForm(){
 
     const navigate = useNavigate();
 
-    // let clickNavigation= ()=>{
-    //     navigate("/auth")
-    // }
-
     let handleChange = (e)=>{
         e.preventDefault()
         let formdata = new FormData(e.target)
@@ -20,9 +16,9 @@ function HomeForm(){
             "email":formdata.get("userEmail"),
             "userRole":formdata.get("userRole")
         }
+        sessionStorage.setItem("userForm_one_Data",JSON.stringify(userinfo))
 
         navigate("/auth")
-
     }
 
     validationPart()

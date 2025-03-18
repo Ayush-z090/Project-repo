@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { students } from "../../JS_script/Studentdata";
 import styles from "../styling/students.module.css"
 
@@ -12,8 +12,6 @@ function StudentList(){
         </>
     )
 }
-
-
 
 // passed obj arguunt contains obj-> {string,integer,array->[obj,obj],array->[obj,obj]}
 
@@ -31,31 +29,18 @@ function Student({name,rollno,attendace_arr,totalAttend_arr}){
                 </div>
                 <div className={styles.attendaceBody}>
                     <h4>status</h4>
-                    {/* <div className={styles.M_body}>
-                        <p>morning</p>
-                            <label>
-                                present
-                                <input type="radio" name="Morning" value="A" id="P"/>
-                            </label>
-                            <label>
-                                absent
-                                <input type="radio" name="Morning" value="A" id="A"/>
-                            </label>
-
-                    </div> */}
-                    <RadioArea name={"morning"} attence={morning_A} key={"M"}/>
-                    <RadioArea name={"evening"} attence={Evening_A} key={"E"}/>
+                    <RadioArea time={"morning"} attence={morning_A} key={"M"} student_Name={name} student_rollNum={rollno}/>
+                    <RadioArea time={"evening"} attence={Evening_A} key={"E"} student_Name={name} student_rollNum={rollno}/>
                 </div>
             </div>
         </>
     )
 }
 
-function RadioArea({name,attence}){
+function RadioArea({time,attence,student_Name,student_rollNum}){
 
     let result=""
-
-    let[stats,setstats] = useState({time:name,present:attence === "P"})
+    let formReff = useRef(null)
     
     if (attence === "P"){
         result = true
@@ -63,22 +48,37 @@ function RadioArea({name,attence}){
     else{
         result= false
     }
-    function handleChange(e){
-         const isPresent = e.target.value === "P"; // Check if "P" is selected
-         console.log(result)
+
+  
+    let formHandle = (e)=>{
+        e.preventDefault()
+        const formData = new FormData(formReff.current);
+        const data = Object.fromEntries(formData.entries());
+        data["name"]=student_Name;
+        data["rollNumber"]=student_rollNum;
+        console.log("Submitted Data:", data); // Log data
+
     }
+    const handleChange = () => {
+        if (formReff.current) {    
+          formReff.current.requestSubmit(); // Submit the form
+        }
+      };
+
+
+
     return(
         <>
-        <form className={styles.status_body}>
-            <p>{name}</p>
+        <form ref={formReff}  onSubmit={formHandle} className={styles.status_body}>
+            <p>{time}</p>
             <div className={styles.input_area}>
             <label>
                 present
-                <input type="radio" name={name} value="P" id="P" defaultChecked={result} onChange={handleChange}/>
+                <input type="radio" name={time} value="P" id="P" defaultChecked={result} onChange={handleChange}/>
             </label>
             <label>
                 absent
-                <input type="radio" name={name} value="A" id="A" defaultChecked={!result}  onChange={handleChange}/>
+                <input type="radio" name={time} value="A" id="A" defaultChecked={!result}  onChange={handleChange}/>
             </label>
 
             </div>
