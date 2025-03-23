@@ -5,8 +5,6 @@ import { conftirmPasword, validationPartNum, validationPartPass } from "../JS_sc
 function SignUp(){
 
     const navigate = useNavigate();
-    let previous_FormData = JSON.parse(sessionStorage.getItem("userForm_one_Data"))
-
 
     validationPartNum()
     validationPartPass()
@@ -15,14 +13,40 @@ function SignUp(){
     let handleform = (e)=>{
         e.preventDefault()
         let formdata = new FormData(e.target)
-        let userData = {
-            ...previous_FormData,
-            "_userId":formdata.get("dataUserId"),
-            "Course":formdata.get("dataUserRole"),
-            "_userPassword" : formdata.get("confirmDataUserPassword")
+        let dataObj = Object.fromEntries(formdata.entries())
+        let precFormData = JSON.parse(sessionStorage.getItem("userForm_one_Data"))
+        
+        if (precFormData) {
+
+            let collecteddata = {...dataObj,...precFormData}
+
+            fetch("http://127.0.0.1:5000/users",
+                {
+                    method:"POST",
+                    headers: { "Content-Type": "application/json" },
+                    body:JSON.stringify(collecteddata)
+                }
+            ).
+            then(res=> res.json()).
+            then(data=>{
+                console.log(data)
+                if (data && data.status === "OK"){
+                    alert(data.message)
+                    navigate("/auth/login")
+                }
+                else if (data && data.status === "found"){
+                    alert(data.message)
+                }
+            }).
+            catch(rej=> console.log("error occured"))
+            
         }
-        console.log(userData)
-        navigate("/auth/login")
+        else{
+            alert("fill the previous form first")
+            navigate("/userForm")
+        }
+
+        
     }
 
     
@@ -45,7 +69,7 @@ function SignUp(){
                         
                         <div className={styles.role_drop_down}>
                             <label htmlFor="role">Course</label>
-                            <select name="dataUserRole" className={styles.role} id="role" required>
+                            <select name="course" className={styles.role} id="role" required>
                                 <option value="" role="contentinfo">select your course</option >
                                 <option value="cse">CSE</option>
                                 <option value="it">It</option>
@@ -63,7 +87,7 @@ function SignUp(){
                             labelText= "password" 
                             type="password" 
                             id="confirmUserPassword"
-                            name="confirmDataUserPassword"
+                            name="password"
 
                             
                         />

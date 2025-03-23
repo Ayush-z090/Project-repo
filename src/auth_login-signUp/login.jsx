@@ -7,7 +7,6 @@ import { validationPartNum, validationPartPass } from "../JS_script/Validation_i
 function LogIn(){
 
     const navigate = useNavigate();
-    let path_direct_to = ""
 
     validationPartNum();
     validationPartPass();
@@ -15,13 +14,29 @@ function LogIn(){
     let handleform = (e)=>{
         e.preventDefault()
         let formdata = new FormData(e.target)
-        let userData = {
-            "_userId":formdata.get("userId"),
-            "_userPassword" : formdata.get("userPassword")
-        }
-        console.log(userData)
+        let userData = Object.fromEntries(formdata.entries())
+        fetch("http://127.0.0.1:5000/login",
+            {
+                method:"POST",
+                credentials:"include",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify(userData)
+            }
+        )
+        .then(res=> res.json())
+        .then(data=>{
+            if (data && data['status'] === "OK"){
+                alert(data.message)
+                localStorage.setItem("name",data.name)
+                localStorage.setItem("course",data.course)
+                localStorage.setItem("isSess",JSON.stringify(data.isSess.status))
+                localStorage.setItem("role",data.role)
+                data.role === "Students" ? navigate("/user_dashboard") : navigate("/admin_dashboard")
+            }
 
-        path_direct_to === "student" ? navigate("/user_dashboard") : navigate("/admin_dashboard")
+            alert(data.message)
+        })
+        .catch(rej=>console.log("error"))
     }
 
     return(
@@ -37,14 +52,14 @@ function LogIn(){
 
                     <InputField 
                         labelText ="user id" 
-                        name="userId"
+                        name="id"
                         id="userId"
                         type="number"
                     />
 
                     <InputField 
                         labelText ="Password" 
-                        name="userPassword"
+                        name="password"
                         id="userPassword"
                         type="password"
                     />

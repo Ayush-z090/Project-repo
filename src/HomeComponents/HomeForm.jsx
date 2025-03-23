@@ -11,13 +11,8 @@ function HomeForm(){
     let handleChange = (e)=>{
         e.preventDefault()
         let formdata = new FormData(e.target)
-        let userinfo = {
-            "name":formdata.get("userName"),
-            "email":formdata.get("userEmail"),
-            "userRole":formdata.get("userRole")
-        }
-        sessionStorage.setItem("userForm_one_Data",JSON.stringify(userinfo))
-
+        let dataObj = Object.fromEntries(formdata.entries())
+        sessionStorage.setItem("userForm_one_Data",JSON.stringify(dataObj))
         navigate("/auth")
     }
 
@@ -33,7 +28,7 @@ function HomeForm(){
                     <InputField 
                     labelText="full name" 
                     inputId = "name" 
-                    name="userName" 
+                    name="name" 
                     type="text" 
                     pattern= "[a-zA-Z0-9_]+\s[a-zA-Z0-9_]+" 
                     inputValLen="18"
@@ -44,7 +39,7 @@ function HomeForm(){
                     <InputField 
                     labelText="email" 
                     inputId = "Email" 
-                    name="userEmail" 
+                    name="email"
                     type="email" 
                     pattern= "[^@]+@gmail.com" 
                     inputValLen=""
@@ -52,10 +47,10 @@ function HomeForm(){
                     />
                     
                     <div className={styles.role_drop_down}>
-                        <select name="userRole" id="role" required>
+                        <select name="role" id="role" required>
                             <option value="" role="contentinfo">select your role</option >
-                            <option value="Teacher">Teacher</option>
-                            <option value="Student">Student</option>
+                            <option value="Teachers">Teacher</option>
+                            <option value="Students">Student</option>
                         </select>
                     </div>
                     <button type="submit" id={styles.formButton}>submit</button>

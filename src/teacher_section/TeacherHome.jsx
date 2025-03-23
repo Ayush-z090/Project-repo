@@ -1,8 +1,13 @@
-import { useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import styles from "./styling/home.module.css"
+
 
 function T_home(){
     let [state,setState]= useState("M")
+    let [userData,setUserData]=useState(localStorage.getItem("name"))
+
+
+
     let formAction = (e)=>{
         e.preventDefault()
         let data = new FormData(e.target)
@@ -10,6 +15,7 @@ function T_home(){
         else setState("E")
     
     }
+    
     return(
         <>
         <div className={styles.backColor}></div>
@@ -17,7 +23,7 @@ function T_home(){
         <div className={styles.userDetails}>
             <div className={styles.imgbody}></div>
             <div className={styles.infoBody}>
-                <h1>hello Teacher</h1>
+                <h1>hello {userData}</h1>
                 <p>we hope u are having a good day</p>
             </div>
         </div>
@@ -79,5 +85,7 @@ function FormAttend({formAction}){
         </>
     )
 }
+
+
 
 export {T_home}

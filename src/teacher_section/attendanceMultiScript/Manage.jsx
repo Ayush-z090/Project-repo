@@ -2,16 +2,28 @@ import { useState } from "react"
 import styles from "../styling/Manage.module.css"
 import { addElment } from "../../JS_script/Addelemnt"
 import { FormPage } from "../../auth_page"
+import { changeSession, dBReadFields } from "../../JS_script/allFetch"
 
 function ManageStudent(){
 
     // this hook tracks whether the session is started or not 
     // initial state would be false ..
-    let [isSessionStart,setSession] = useState(false)
+    let [isSessionStart,setSession] = useState(JSON.parse(localStorage.getItem("isSess")))
 
     // this hook tracks the sessional year ..
     // the sessional year i.e. 1,2,3 depending on the teacher, which class year he/she is in 
     let [SessChossenYear,setSessData] = useState(null)
+
+    let [AddedRollNum,setAddedRollnum] = useState([])
+
+    dBReadFields("POST",{isSess:1}).then(data=>{
+        if (data.val.status && isSessionStart){
+            setSessData(data.val.sessional_year)
+            setAddedRollnum(data.val.sess_users)
+        }
+        
+    }).catch(rej=>console.log("server error"))
+
 
     // this element is shown when the sessionn isnt started yet
     let emptyFieldElement = (<div className={styles.emptyField}>
@@ -24,10 +36,11 @@ function ManageStudent(){
         <div className="Sessional_Field">
 
             <hgroup className={styles.sessionalData}>
-                <h1>start session</h1>
+                <h1>{isSessionStart ?"" :"start session"} </h1>
             </hgroup>
             
-            <Sess_Form setData={setSessData} Data={SessChossenYear} setSessionCondition={setSession}/>
+            { isSessionStart ? "" :  <Sess_Form setData={setSessData} Data={SessChossenYear} setSessionCondition={setSession}/>
+        }
 
         </div>
         <hgroup className={styles.note}>
@@ -43,7 +56,7 @@ function ManageStudent(){
         {isSessionStart ? "":emptyFieldElement}
 
         {/* if the session is start then Sess_elemnt will render with passed args*/ }
-        {isSessionStart ? <Sess_elemnt courseName={"CSE"} Year={SessChossenYear}/> : ""}
+        {isSessionStart ? <Sess_elemnt courseName={localStorage.getItem("course")} Year={SessChossenYear} rollnumbers={AddedRollNum} addRollnumbers={setAddedRollnum}/> : ""}
         
         </>
     )
@@ -52,6 +65,7 @@ function ManageStudent(){
 
 function Sess_Form({setData,Data,setSessionCondition}){
 
+    
     // here the session logic is applied
     // this function will be run when the form related to session is submitted..
     let  SessFormHandle = (e)=>{
@@ -69,23 +83,43 @@ function Sess_Form({setData,Data,setSessionCondition}){
             // set the selected sessional year
             setData(SessFormData.get("Year"))
             // set sessinal value to true whch will render the sess_elemnt
-            setSessionCondition(true)
+            localStorage.setItem("isSess",JSON.stringify(true))
+            setSessionCondition(JSON.parse(localStorage.getItem("isSess")))
+            let updatedFields={
+                isSess:{
+                    status:true,
+                    sessional_year:SessFormData.get("Year"),
+                    sess_users:[]
+                    }
+                }
+            changeSession(updatedFields)
+            .then(data=>{
+                if (data.status==="OK"){
+                    console.log(data.message)
+                }
+                else{
+                    console.log(data.message)
+                }
+            }).catch(rej=>console.log("server error"))
         }
     }
+    
+    
+
 
     return(
         <>
             <form className={styles.form} onSubmit={SessFormHandle}>
                 <fieldset aria-required>
                     <div className={styles.courseBlock}>
-                        <p>course : <span>cse</span></p>
+                        <p>course : <span>{localStorage.getItem("course")}</span></p>
                     </div>
                     <div className={styles.input_field}>
                         <label className={styles.RadioArea}>
                             <input type="radio" name="Year" value="1" id="YearOne" required/> 1st
                         </label>
                         <label  className={styles.RadioArea}>
-                            <input type="radio" name="Year" value="2" id="YearTwo"/> 2nd
+                            <input type="radio" name="Year" value="2" id="YearTwo" /> 2nd
                         </label>
                         <label  className={styles.RadioArea}>
                             <input type="radio" name="Year" value="3" id="YearThree"/> 3rd
@@ -99,10 +133,10 @@ function Sess_Form({setData,Data,setSessionCondition}){
 }
 
 
-function Sess_elemnt({courseName,Year}){
+function Sess_elemnt({courseName,Year,rollnumbers,addRollnumbers}){
     
     // this hook keeps track of all the added roll numbers
-    let [AddedRollNum,setAddedRollnum] = useState([])
+    // let [AddedRollNum,setAddedRollnum] = useState([])
 
     
     let AddStudentFormHandling =(e)=>{
@@ -110,8 +144,8 @@ function Sess_elemnt({courseName,Year}){
         e.preventDefault()
         let formData = new FormData(e.target)
         let Roll_number = formData.get("Rollnumber").trim()
-        if ( !AddedRollNum.includes(Roll_number) && Roll_number.trim() !== ""){
-            setAddedRollnum([...AddedRollNum,Roll_number])
+        if ( !rollnumbers.includes(Roll_number) && Roll_number.trim() !== ""){
+            addRollnumbers([...rollnumbers,Roll_number])
         }
     }
     
@@ -137,13 +171,13 @@ function Sess_elemnt({courseName,Year}){
                 <h4>Roll number</h4>
             </div>
             <div className={styles.studentList} id="addElementField">
-                {AddedRollNum.map(a=>
+                {rollnumbers.map(a=>
                 <StudntDetailsform 
-                Sno={AddedRollNum.indexOf(a)+" :"} 
+                Sno={rollnumbers.indexOf(a)+" :"} 
                 rollnumber={a} 
                 key={a} 
-                RollNumCollection={AddedRollNum}
-                setCollection = {setAddedRollnum}
+                RollNumCollection={rollnumbers}
+                setCollection = {addRollnumbers}
                 />)}
             </div>
         </div>

@@ -7,7 +7,7 @@ function validationPartNum(){
 // validation of input of type numbers
 NumInput.forEach(input=>{
     input.addEventListener("input",()=>{
-        if(!/^2200[0-9]0[0-9]00[0-9]{2}$/.test(input.value)){
+        if(!/^2200[0-9]0[0-9]00[0-9]{2}|1{4}4{4}[0-9]$/.test(input.value)){
             input.setCustomValidity("not a valid roll-number");
         }
         else{
