@@ -1,8 +1,9 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import styles from "../styling/Manage.module.css"
 import { addElment } from "../../JS_script/Addelemnt"
 import { FormPage } from "../../auth_page"
-import { changeSession, dBReadFields } from "../../JS_script/allFetch"
+import { changefield, dBReadFields } from "../../JS_script/allFetch"
+import { validationPartNum } from "../../JS_script/Validation_inter"
 
 function ManageStudent(){
 
@@ -16,13 +17,21 @@ function ManageStudent(){
 
     let [AddedRollNum,setAddedRollnum] = useState([])
 
-    dBReadFields("POST",{isSess:1}).then(data=>{
-        if (data.val.status && isSessionStart){
-            setSessData(data.val.sessional_year)
-            setAddedRollnum(data.val.sess_users)
-        }
-        
-    }).catch(rej=>console.log("server error"))
+    // fetch function to read
+
+    useEffect(()=>{
+        dBReadFields("POST",{isSess:1}).then(data=>{
+            let obj={...data.val.isSess}
+            console.log("i call databse",obj,data)
+            if (obj.status && isSessionStart){
+                setSessData(obj.sessional_year)
+                setAddedRollnum(obj.sess_users)
+            }
+            
+        }).catch(rej=>console.log("server error"))
+    
+    },[])
+    console.log(AddedRollNum,SessChossenYear,"ggvj")
 
 
     // this element is shown when the sessionn isnt started yet
@@ -92,8 +101,11 @@ function Sess_Form({setData,Data,setSessionCondition}){
                     sess_users:[]
                     }
                 }
-            changeSession(updatedFields)
+
+             // function to change/update field   
+            changefield({"$set":updatedFields})
             .then(data=>{
+                console.log("i also rednrd")
                 if (data.status==="OK"){
                     console.log(data.message)
                 }
@@ -138,7 +150,7 @@ function Sess_elemnt({courseName,Year,rollnumbers,addRollnumbers}){
     // this hook keeps track of all the added roll numbers
     // let [AddedRollNum,setAddedRollnum] = useState([])
 
-    
+    validationPartNum()
     let AddStudentFormHandling =(e)=>{
 
         e.preventDefault()
@@ -146,6 +158,13 @@ function Sess_elemnt({courseName,Year,rollnumbers,addRollnumbers}){
         let Roll_number = formData.get("Rollnumber").trim()
         if ( !rollnumbers.includes(Roll_number) && Roll_number.trim() !== ""){
             addRollnumbers([...rollnumbers,Roll_number])
+            // to add rollnumbers
+            changefield({"$push":{"isSess.sess_users":Roll_number}}).
+            then(res=>{
+                if (!res) console.log("ro resonspe")
+                else if(res.status === "OK") console.log(res.message)
+                else console.log(res.message)
+            }).catch(rej => console.log("internal server issue"))
         }
     }
     
@@ -192,6 +211,13 @@ function StudntDetailsform({Sno,rollnumber,RollNumCollection,setCollection}){
     let FormHandling=(e)=>{
         e.preventDefault()
         setCollection(removeElement(RollNumCollection,rollnumber))
+        changefield({"$pull":{"isSess.sess_users":rollnumber}}).
+        then(res=>{
+            if (!res) console.log("ro resonspe")
+            else if(res.status === "OK") console.log(res.message)
+            else console.log(res.message)
+        }).catch(rej => console.log("internal server issue"))
+
     }
 
     return(

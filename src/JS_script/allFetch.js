@@ -1,7 +1,7 @@
 const localHost = "http://127.0.0.1:5000"
 
-
-function changeSession(updatedValue){
+// fetch function to update value
+function changefield(updatedValue){
 
       return fetch("http://127.0.0.1:5000/update",{
             method:"POST",
@@ -16,6 +16,9 @@ function changeSession(updatedValue){
 
 }
 
+
+
+// fetch function used to read value with method get or post
 
 function dBReadFields(useMethod,passedData=null) {
     
@@ -41,7 +44,7 @@ function dBReadFields(useMethod,passedData=null) {
         .then(data=> data)
     }
     
-
+    return Promise.reject("something went wrong")
 }
 
-export {changeSession,dBReadFields}
+export {changefield,dBReadFields}
