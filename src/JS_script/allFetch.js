@@ -47,4 +47,16 @@ function dBReadFields(useMethod,passedData=null) {
     return Promise.reject("something went wrong")
 }
 
-export {changefield,dBReadFields}
+
+// function for logout
+
+function logout(){
+    return fetch(`${localHost}/logout`,{
+        method:"GET",
+        credentials:"include"
+    }).then(res=> res.json())
+}
+
+
+export {changefield,dBReadFields,logout}
+

@@ -9,7 +9,7 @@
     background-color: var(--color-palet-Bg-);
     border-radius: 1rem;
     display: flex;
-    justify-content: center;
+    justify-content: end;
     align-items: center;
     font-family: "poppins";
     font-size: 1.3rem;
@@ -24,13 +24,16 @@
     width: calc(100% - 10px);
     display: flex;
     justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 4px;
 }
 
 .section_component .section{
     box-sizing: border-box;
-    padding: .8em .4rem;
+    padding: .4em .4rem;
     color: var(--color-palet-text-);
     text-decoration: none;
+    font-size: 1.1rem;
 }
 
 .section .underLine{

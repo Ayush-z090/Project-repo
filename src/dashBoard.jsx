@@ -1,6 +1,7 @@
 import styles from "./styling/Dashboard.module.css"
-import { Link, Outlet } from "react-router";
+import { Link, Outlet, useNavigate } from "react-router";
 import { useState } from "react";
+import { logout } from "./JS_script/allFetch";
 
 
 
@@ -42,6 +43,20 @@ function TopBar({Showclass,setClass}){
 }
 
 function MenuTopBar({Showclass,tothe}){
+
+    let navigate = useNavigate()
+    const onClickHandle = ()=>{
+        logout().then(data=>{
+
+           if (data.status === "OK") 
+            {
+                 alert(data.message)
+                 navigate("/auth/login")
+                
+            }
+        })
+    }
+
     return(
         <>
             <div className={`${styles.menu_side_bar} ${Showclass? styles.hide: ""} `}>
@@ -58,6 +73,11 @@ function MenuTopBar({Showclass,tothe}){
                         attendence
                     <hr className={styles.underLine}/>
                     </Link>
+                    <a className={styles.section} id="attendence" onClick={onClickHandle}>
+                        logout
+                    <hr className={styles.underLine}/>
+                    </a>
+
                 </ul>
             </div>
 
