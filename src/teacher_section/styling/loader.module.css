@@ -1,0 +1,71 @@
+.loaderContainer{
+    display:flex;
+    font-family:poppins, serif;
+    align-items: center;
+    justify-content:center ;
+    gap: 10px;
+    padding: 1rem 0 0 0;
+    text-transform: capitalize;
+    text-align: center;
+
+}
+
+.Img_Element{
+    height: 2rem;
+    width: 2rem;
+    display: block;
+    position: initial;
+    margin: .5rem auto;
+    font-size: .5rem;
+}
+
+.displayContent h4{
+    width:8rem;
+    line-height: 1.2;
+}
+
+.Button{ 
+    padding:.4rem 1rem;
+    cursor:pointer;
+    border:1px solid;
+    color: var(--color-palet-text-);
+    text-decoration: none;
+    border-radius: .5rem;
+    width: 5rem;
+    font-size: .5rem;
+    line-height: 1.3;
+    box-shadow: 0px 0px 2.4px 0px
+
+}
+button.Button{
+    text-transform: inherit;
+    font-family: inherit;
+    width: inherit;
+}
+
+.buttonCollection{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+.SVG_element{
+
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+
+}
+
+.Button:active{
+    transform: translate3d(3px,6px,3px) scale(0.98);
+}
+
+.Button{
+    transition: transform 300ms ease,scale 300ms ease-in;
+}
+

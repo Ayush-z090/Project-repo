@@ -5,6 +5,8 @@ import { FormPage } from "../../auth_page"
 import { changefield, dBReadFields } from "../../JS_script/allFetch"
 import { validationPartNum } from "../../JS_script/Validation_inter"
 
+import { QrcodeGen } from "../qrCodeGenrate"
+
 function ManageStudent(){
 
     // this hook tracks whether the session is started or not 
@@ -28,7 +30,7 @@ function ManageStudent(){
                 setAddedRollnum(obj.sess_users)
             }
             
-        }).catch(rej=>console.log("server error"))
+        }).catch(rej=>console.log("server error....."))
     
     },[])
     console.log(AddedRollNum,SessChossenYear,"ggvj")
@@ -48,7 +50,7 @@ function ManageStudent(){
                 <h1>{isSessionStart ?"" :"start session"} </h1>
             </hgroup>
             
-            { isSessionStart ? "" :  <Sess_Form setData={setSessData} Data={SessChossenYear} setSessionCondition={setSession}/>
+            { isSessionStart ? <QrcodeGen qrData={"hello world"}/> :  <Sess_Form setData={setSessData} Data={SessChossenYear} setSessionCondition={setSession}/>
         }
 
         </div>

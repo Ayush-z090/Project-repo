@@ -20,7 +20,7 @@ function SignUp(){
 
             let collecteddata = {...dataObj,...precFormData}
 
-            fetch("http://127.0.0.1:5000/users",
+            fetch("https://backendapi-aexs.onrender.com/users",
                 {
                     method:"POST",
                     headers: { "Content-Type": "application/json" },

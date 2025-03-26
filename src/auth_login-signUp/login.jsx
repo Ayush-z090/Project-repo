@@ -15,7 +15,7 @@ function LogIn(){
         e.preventDefault()
         let formdata = new FormData(e.target)
         let userData = Object.fromEntries(formdata.entries())
-        fetch("http://127.0.0.1:5000/login",
+        fetch("https://backendapi-aexs.onrender.com/login",
             {
                 method:"POST",
                 credentials:"include",
@@ -45,7 +45,7 @@ function LogIn(){
             <hgroup className={styles.heading}>
                 <a href="#" className={styles.link}>{"<--"}</a>
                 <h1>log in</h1>
-                <p>don't have an account? <a onClick={()=>{navigate("/auth")}} id="signUp" className={styles.link}>signUp</a></p>
+                <p>don't have an account? <a onClick={()=>{navigate("/userForm")}} id="signUp" className={styles.link}>signUp</a></p>
             </hgroup>
             <form onSubmit={handleform} className="form_field" id="logIn-form">
                 <fieldset className={styles.fieldset} aria-required="true">

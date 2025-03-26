@@ -1,9 +1,8 @@
-const localHost = "http://127.0.0.1:5000"
+const localHost = "https://backendapi-aexs.onrender.com"
 
 // fetch function to update value
 function changefield(updatedValue){
-
-      return fetch("http://127.0.0.1:5000/update",{
+      return fetch(`${localHost}/update`,{
             method:"POST",
             headers:{"Content-Type":"application/json"},
             credentials:"include",
@@ -57,6 +56,15 @@ function logout(){
     }).then(res=> res.json())
 }
 
+function blobLinkGenerate(url){
+    return  fetch(url)
+            .then(
+            data=> data.blob()
+            )
+            .then(data =>URL.createObjectURL(data))
+            
 
-export {changefield,dBReadFields,logout}
+}
+
+export {changefield,dBReadFields,logout,blobLinkGenerate}
 
