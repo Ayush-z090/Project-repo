@@ -55,10 +55,10 @@ function QrcodeGen({qrData}){
 
 
 
-function Loader(){
+function Loader({color}){
   let Loaderheight = 30;
   let loaderwidth = Loaderheight ;
-  let loaderColor = "black" ;
+  let loaderColor = color ? color:"black" ;
 
 
   return(
@@ -76,4 +76,4 @@ function Loader(){
   )
 }
 
-export {QrcodeGen}
+export {QrcodeGen,Loader}

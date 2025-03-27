@@ -89,11 +89,16 @@ option{
     height: 2.2rem;
     width: 10rem;
     align-self: center;
-    appearance: none;
     border:1px solid;
     font-family: inherit;
     border-radius: .5rem;
     background-color: black;
     color: var(--color-palet-Bg-);
     cursor: pointer;
+    position: relative;
+    transition: background-color 100ms ease-in-out;
+}
+
+.success{
+    
 }

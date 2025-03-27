@@ -1,18 +1,21 @@
 import { useNavigate } from "react-router";
 import styles from "../styling/auth_style.module.css"
 import { InputField } from "./signup"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { validationPartNum, validationPartPass } from "../JS_script/Validation_inter";
+import { Loader } from "../teacher_section/qrCodeGenrate";
 
 function LogIn(){
 
     const navigate = useNavigate();
+    let [loader,setLoader] = useState(false)
 
     validationPartNum();
     validationPartPass();
 
     let handleform = (e)=>{
         e.preventDefault()
+        setLoader(!loader)
         let formdata = new FormData(e.target)
         let userData = Object.fromEntries(formdata.entries())
         fetch("https://backendapi-aexs.onrender.com/login",
@@ -26,17 +29,24 @@ function LogIn(){
         .then(res=> res.json())
         .then(data=>{
             if (data && data['status'] === "OK"){
-                alert(data.message)
                 localStorage.setItem("name",data.name)
                 localStorage.setItem("course",data.course)
                 localStorage.setItem("isSess",JSON.stringify(data.isSess.status))
                 localStorage.setItem("role",data.role)
-                data.role === "Students" ? navigate("/user_dashboard") : navigate("/admin_dashboard")
+                setLoader(!loader)
+                e.target.lastElementChild.lastElementChild.innerHTML = "login Succefull"
+                e.target.lastElementChild.lastElementChild.style.backgroundColor = "green"
+
+                setTimeout(()=>{
+                    data.role === "Students" ? navigate("/user_dashboard") : navigate("/admin_dashboard")
+                },1000)
             }
 
-            alert(data.message)
+            
         })
         .catch(rej=>console.log("error"))
+
+        
     }
 
     return(
@@ -64,7 +74,11 @@ function LogIn(){
                         type="password"
                     />
                     
-                    <button className={styles.button}>login</button>
+                    <button className={styles.button}>
+                        {loader ? "":"login"}
+                        {loader ? <Loader color={"white"}/>: ""}
+                        
+                        </button>
                 </fieldset>
             </form>
             </div>
