@@ -41,6 +41,7 @@ function ManageStudent(){
         <h1>no Session added yet</h1>
     </div>)
 
+    console.log(isSessionStart)
 
     return(
         <>
@@ -58,8 +59,8 @@ function ManageStudent(){
 
             <p>
                 <span>note:</span>
-                Here u can manage your students list, only here u can add and delet student.Before that <span>its mandatory to start a session</span> , Fill the above mentioned details to start session after that u can mange the the studens .
-                <span>For now Only one session can be created</span>
+                Here u can manage your students list, only here u can add and delet student.{!isSessionStart ?" Fill the above mentioned details to start session after that u can mange the the studens .":""}
+                <span>For now Only one session can be created in an account</span>
             </p>
 
         </hgroup>
@@ -67,7 +68,12 @@ function ManageStudent(){
         {isSessionStart ? "":emptyFieldElement}
 
         {/* if the session is start then Sess_elemnt will render with passed args*/ }
-        {isSessionStart ? <Sess_elemnt courseName={localStorage.getItem("course")} Year={SessChossenYear} rollnumbers={AddedRollNum} addRollnumbers={setAddedRollnum}/> : ""}
+        {isSessionStart ? 
+        <Sess_elemnt 
+        courseName={localStorage.getItem("course")} 
+        Year={SessChossenYear} 
+        rollnumbers={AddedRollNum} 
+        addRollnumbers={setAddedRollnum}/> : ""}
         
         </>
     )
@@ -100,7 +106,8 @@ function Sess_Form({setData,Data,setSessionCondition}){
                 isSess:{
                     status:true,
                     sessional_year:SessFormData.get("Year"),
-                    sess_users:[]
+                    sess_users:[],
+                    QrCodeData:Math.random().toString(36).substring(2,12)
                     }
                 }
 
@@ -160,6 +167,7 @@ function Sess_elemnt({courseName,Year,rollnumbers,addRollnumbers}){
         let Roll_number = formData.get("Rollnumber").trim()
         if ( !rollnumbers.includes(Roll_number) && Roll_number.trim() !== ""){
             addRollnumbers([...rollnumbers,Roll_number])
+            localStorage.setItem("studentRollNum",JSON.stringify([...rollnumbers,Roll_number]))
             // to add rollnumbers
             changefield({"$push":{"isSess.sess_users":Roll_number}}).
             then(res=>{
@@ -213,6 +221,9 @@ function StudntDetailsform({Sno,rollnumber,RollNumCollection,setCollection}){
     let FormHandling=(e)=>{
         e.preventDefault()
         setCollection(removeElement(RollNumCollection,rollnumber))
+
+        localStorage.setItem("studentRollNum",JSON.stringify(removeElement(RollNumCollection,rollnumber)))
+
         changefield({"$pull":{"isSess.sess_users":rollnumber}}).
         then(res=>{
             if (!res) console.log("ro resonspe")

@@ -6,6 +6,9 @@ function UserHome(){
 
     let [stateOne,setOne] = useState(false)
     let [stateTwo,setTwo] = useState(false)
+
+    let {M,E} =JSON.parse(localStorage.getItem("attendance"))
+
     let elementOne = (<div className={styles.dropdown_content} id="classses-show--dropdown">
         <div className={styles.attend} id="p1">
             <p>period 1 
@@ -22,10 +25,10 @@ function UserHome(){
 
     let elemntTwo = (<div className={styles.dropdown_content} id="classses-show--dropdown">
         <div className={styles.attend} id="morning">
-            <p>morning <span className={styles.status} id="morning-status">pending</span></p>
+            <p>morning <span className={styles.status} id="morning-status">{M ? "Present":"Absent"}</span></p>
         </div>
         <div className={styles.attend} id="evening">
-            <p>Evening <span className={styles.status} id="evening-status">pending</span></p>
+            <p>Evening <span className={styles.status} id="evening-status">{E ? "Present":"Absent"}</span></p>
         </div>
         
     </div>)
@@ -35,7 +38,7 @@ function UserHome(){
             <div className={styles.homeSection} >
                 <h1>
                     hello,
-                    <span id="usrName">ayush</span>
+                    <span id="usrName">{localStorage.getItem("name")}</span>
                     <p>heres today class summary</p>
                 </h1>
                 <div className={styles.dropdown_trigger} id="classes-summary">

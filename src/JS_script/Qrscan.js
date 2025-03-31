@@ -1,33 +1,41 @@
 import { useEffect } from "react";
 import { Html5Qrcode } from "html5-qrcode";
-import { data } from "react-router";
+import { changefield } from "./allFetch";
 
+let attendance = JSON.parse(localStorage.getItem("attendance"))
 
 
 const qrCodeSuccessCallback_E = (decodedText, decodedResult) => {
     /* handle success */
     alert(`E decded text : ${decodedText} , decoded result : ${decodedResult}`)
-    //         fetch("https://your-server.com/api/store-scan", { // Replace with your backend
-//             method: "POST",
-//             headers: { "Content-Type": "application/json" },
-//             body: JSON.stringify({ 
-//                 scannedCode: decodedText, 
-//                 user: userData // Send user info along with the scan
-//             })
-//         })
-//         .then(response => response.json())
-//         .then(data => {
-//             alert("Data stored successfully!");
-//         })
-//         .catch(error => {
-//             alert("Error sending data: " + error);
-//         });
+
+    changefield({"$set":{"attendance_status.E":true}}).then(data=>{
+        console.log(data)
+        if(data.status === "OK"){
+            alert(`Your morning attendance ${data.message}`)
+            localStorage.setItem("attendance",{"M":true,"E":attendance.E})
+        }
+        else console.log(`some error occured ..->${data.message}`)
+    }).catch(rej=> console.log("attendance cant be set due to internal server error -> "))
+
 
 };
 
 const qrCodeSuccessCallback_M = (decodedText, decodedResult) => {
     /* handle success */
     alert(`M decded text : ${decodedText} , decoded result : ${decodedResult}`)
+
+    changefield({"$set":{"attendance_status.M":true}}).then(data=>{
+        console.log(data)
+        if(data.status === "OK"){
+            alert(`Your morning attendance ${data.message}`)
+            localStorage.setItem("attendance",{"M":attendance.M,"E":true})
+        }
+        else console.log(`some error occured ..->${data.message}`)
+    }).catch(rej=> console.log("attendance cant be set due to internal server error -> "))
+    
+
+
 };
 
 
@@ -85,6 +93,7 @@ function QrScanner(){
         
             }
 
+            // when the stop button is clicked,we need to pause it so to do this we will use pause method
             if(eve.target.matches(".stopScan") ){
                 eve.stopPropagation(); 
                 console.log("hello",eve.target.innerText)
@@ -101,14 +110,6 @@ function QrScanner(){
                     }
             }
         
-            // else if(eve.target.matches("#M-Absent")){
-            //     M_status_showElemnt.innerText ="status: Absent"
-            //     console.log(sessionStorage.setItem("test","true"))
-            //     console.log(sessionStorage.getItem("test"))
-            // }
-            // else if(eve.target.matches("#E-Absent")){
-            //     M_status_showElemnt.innerText ="status: Absent"
-            // }
         })
     },[])
 

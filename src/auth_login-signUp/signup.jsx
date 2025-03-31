@@ -18,9 +18,35 @@ function SignUp(){
         
         if (precFormData) {
 
-            let collecteddata = {...dataObj,...precFormData}
+            let extraTea_data={
+                "isSess":{
+                        "status":false,
+                        "sessional_year":null,
+                        "sess_users":[],
+                        "QrCodeData":null
+                }
+                
+            }
 
-            fetch("https://backendapi-aexs.onrender.com/users",
+            let extraStu_data = {
+                "attendance_status":{
+                                        "M":"",
+                                        "E":""
+                                    },
+                "totall_attendance":{
+                                        "M":0,
+                                        "E":0,
+                                        "days":0},
+                    "sessional_year": null
+                }
+
+
+
+
+            let collecteddata = precFormData.role === "Students" ? {...dataObj,...precFormData,...extraStu_data} : {...dataObj,...precFormData,...extraTea_data}
+            console.log(collecteddata)
+
+            fetch("https://backend-api-cn4x.onrender.com/users",
                 {
                     method:"POST",
                     headers: { "Content-Type": "application/json" },

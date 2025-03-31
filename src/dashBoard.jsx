@@ -50,6 +50,7 @@ function MenuTopBar({Showclass,tothe}){
 
            if (data.status === "OK") 
             {
+                 localStorage.clear()
                  alert(data.message)
                  navigate("/auth/login")
                 

@@ -1,13 +1,13 @@
-const localHost = "https://backendapi-aexs.onrender.com"
+const localHost = "https://backend-api-cn4x.onrender.com"
 
 // fetch function to update value
-function changefield(updatedValue){
+function changefield(updatedActionObj){
       return fetch(`${localHost}/update`,{
             method:"POST",
             headers:{"Content-Type":"application/json"},
             credentials:"include",
             body:JSON.stringify(
-                                    updatedValue
+                                    updatedActionObj
                             )
             })
             .then(res=> res.json())
@@ -56,15 +56,25 @@ function logout(){
     }).then(res=> res.json())
 }
 
-function blobLinkGenerate(url){
-    return  fetch(url)
-            .then(
-            data=> data.blob()
-            )
-            .then(data =>URL.createObjectURL(data))
-            
+
+
+
+function attendanceMap(method,course,rollnum=null){
+
+    if(method === "GET" && course && rollnum){
+        return fetch(`${localHost}/getAttedance?role=Students&course=${course}&rollNum=${rollnum}`)
+        .then(data=> data.json())
+    }
+    if(method === "POST" && course){
+        return fetch(`${localHost}/getAttedance?role=Teachers&course=${course}`,{
+            method:"POST",
+            headers:{"Content-Type":"application/json"}
+        })
+        .then(data=>data.json())
+    }
 
 }
 
-export {changefield,dBReadFields,logout,blobLinkGenerate}
+
+export {changefield,dBReadFields,logout,attendanceMap}
 

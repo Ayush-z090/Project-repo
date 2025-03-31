@@ -30,8 +30,8 @@ function Interface(data){
                 <div className={styles.userDetails}>
                     <span className={styles.image}></span>
                     <div className="details-box">
-                        <p id="name">Ayush Semwal</p>
-                        <p id="email">ayushsemwal26@gmail.com</p>
+                        <p id="name">{localStorage.getItem("name")}</p>
+                        <p id="email">{localStorage.getItem("email")}</p>
                     </div>
                 </div>
                 <hgroup className={styles.headings}>

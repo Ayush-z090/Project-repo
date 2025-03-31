@@ -1,47 +1,64 @@
 import { useEffect ,useRef,useState} from "react"
 import Style from "./styling/loader.module.css"
-import { blobLinkGenerate } from "../JS_script/allFetch"
-
+import { changefield, dBReadFields } from "../JS_script/allFetch"
+import { QRCodeCanvas } from "qrcode.react"
+import html2canvas from "html2canvas"
 
 function QrcodeGen({qrData}){
 
-    const qreRef = useRef(null)
-    const [loader,setLoader] = useState(false)
-    let [apiUrl,setApiUrl] = useState(`https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${"newCode"}&format=png`)
-    const [blobUrl,setBlobUrl] = useState(null)
-  
-    const handleClick = (e)=>{
-      let newCode =  Math.random().toString(36).substring(2,12)
-      setApiUrl(`https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${newCode}&format=png`)
-      blobLinkGenerate(apiUrl)
-      .then(value=>{setBlobUrl(value)})
-      console.log(blobUrl)
-    }
-  
+    let qrcodeRef = useRef(null)
+    let [codeData,setCodeData] = useState(null)
 
-    if (apiUrl){
-      useEffect(()=>{
-      blobLinkGenerate(apiUrl)
-      .then(value=>{setBlobUrl(value)})
-      console.log(blobUrl)
+    useEffect(()=>{
+      dBReadFields("POST",{isSess:1})
+    .then(data=>{
+      let obj={...data.val.isSess}
+       console.log(obj)
+        if (obj.QrCodeData){
+          setCodeData(obj.QrCodeData)
+        }
+        else{
+          alert(data.message)
+        }
+      })
     },[])
+
+  let downloadHandleClick = (e)=>{
+    if(qrcodeRef.current){
+      html2canvas(qrcodeRef.current).then((canvas)=>{
+        const link = document.createElement("a")
+        link.href = canvas.toDataURL('image/png')
+        link.download = "qrcode.png"
+        link.click()
+      })
+    }
   }
 
+  function handleClick(){
+    let newCode = Math.random().toString(36).substring(2,12)
+    changefield({"$set":{"isSess.QrCodeData":newCode}}).then(data=>{
+      if (data.status === "OK"){
+        console.log(`new code generated and ${data.message}`)
+      }
+      else console.log(data.message,data.status + "/ngnerate new code again")
+    }).catch(rej=> console.log(rej))
+    setCodeData(newCode)
+  }
 
 
     return(
         <>
         <div className={Style.loaderContainer}>
         
-            <div className={Style.displayContent}>
+            <div ref={qrcodeRef} className={Style.displayContent}>
               <h4>this session qr-code</h4>
-            <img ref={qreRef} src={apiUrl} alt="loading" className={Style.Img_Element}/>
+              <QRCodeCanvas  value={codeData} size={100} className={Style.Img_Element}/>
             </div>
 
             <div className={Style.buttonCollection}>
-            <a download="qrcode.png" href={blobUrl} className={Style.Button}>
+            <button onClick={downloadHandleClick}  className={Style.Button}>
               download as png
-              </a>
+              </button>
               <button onClick={handleClick}  className={Style.Button}>
               generate new code
               </button>

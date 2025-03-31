@@ -1,13 +1,42 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { students } from "../../JS_script/Studentdata";
 import styles from "../styling/students.module.css"
 
+
 function StudentList(){
+
+    let [isEmptyField,setFieldCondition] = useState(true)
+    const [studentObj,SetStudentObj] = useState(JSON.parse(localStorage.getItem("studentRollNum")))
+
+   
+        useEffect(()=>{
+        if(studentObj.length !== 0)
+            {
+            setFieldCondition(false)
+            
+            console.log(studentObj)
+        }
+        },[])
+    
+
+    const EmptyFieldStyle = {
+        "backgroundColor": "rgba(0, 0, 0, 0.096)",
+        "padding":"3rem 0 ",
+        "textAlign": "center",
+        "textTransform": "capitalize",
+        "fontFamily": "poppins,serif",
+        "color": "rgba(255, 255, 255, .6)"
+        }
+
+    let emptyFieldElement = (<div style={EmptyFieldStyle}>
+            <h1>please enter the studnet in manage tab</h1>
+        </div>)
+
     return(
         <>
         <div className={styles.stuDetails_Attendance}>
-            {students.map(data=><Student name={data.name} rollno={data.rollNumber} attendace_arr={data.attendance} key={data.rollNumber}/>    
-)}
+
+            {isEmptyField ? emptyFieldElement : students.map(data=><Student name={data.name} rollno={data.rollNumber} attendace_arr={data.attendance} key={data.rollNumber}/>)}
          </div>
         </>
     )
@@ -54,13 +83,18 @@ function RadioArea({time,attence,student_Name,student_rollNum}){
         e.preventDefault()
         const formData = new FormData(formReff.current);
         const data = Object.fromEntries(formData.entries());
+        //we are adding below two key (name,rollnumber) with their value
         data["name"]=student_Name;
         data["rollNumber"]=student_rollNum;
         console.log("Submitted Data:", data); // Log data
 
     }
+
+    // in this we arent using any buttonn to submit form so we are using useReff hool
+    // when the handlechange triggers, the reffrece of form at the moment the value changes that moment filds value will be submitted
     const handleChange = () => {
         if (formReff.current) {    
+            console.log("change deteceted")
           formReff.current.requestSubmit(); // Submit the form
         }
       };
