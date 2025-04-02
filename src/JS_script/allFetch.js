@@ -1,4 +1,20 @@
-const localHost = "https://backend-api-cn4x.onrender.com"
+const localHost = "https://backendapi-aexs.onrender.com"
+
+
+
+
+function userLogin(fromdata){
+    return  fetch(`${localHost}/login`,
+        {
+            method:"POST",
+            credentials:"include",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify(fromdata)
+        }
+    )
+    .then(res=> res.json())
+}
+
 
 // fetch function to update value
 function changefield(updatedActionObj){
@@ -47,6 +63,7 @@ function dBReadFields(useMethod,passedData=null) {
 }
 
 
+
 // function for logout
 
 function logout(){
@@ -76,5 +93,5 @@ function attendanceMap(method,course,rollnum=null){
 }
 
 
-export {changefield,dBReadFields,logout,attendanceMap}
+export {changefield,dBReadFields,logout,attendanceMap,userLogin}
 

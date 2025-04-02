@@ -4,6 +4,7 @@ import { InputField } from "./signup"
 import { useEffect, useState } from "react";
 import { validationPartNum, validationPartPass } from "../JS_script/Validation_inter";
 import { Loader } from "../teacher_section/qrCodeGenrate";
+import { userLogin } from "../JS_script/allFetch";
 
 function LogIn(){
 
@@ -25,18 +26,11 @@ function LogIn(){
         let formdata = new FormData(e.target)
         let userData = Object.fromEntries(formdata.entries())
 
-        //call to fetch user data to store it in loacalStorage
-        fetch("https://backend-api-cn4x.onrender.com/login",
-            {
-                method:"POST",
-                credentials:"include",
-                headers:{"Content-Type":"application/json"},
-                body:JSON.stringify(userData)
-            }
-        )
-        .then(res=> res.json())
+        //call to userLogin user data to store it in loacalStorage
+        userLogin(userData)
         .then(data=>{
             // check if the data is null or not if its status is good ("OK" means data is correct)
+            console.log(data)
             if (data && data['status'] === "OK"){
                 // setting some localStorage key value pair
                 localStorage.setItem("name",data.name);
@@ -52,6 +46,7 @@ function LogIn(){
                 else{
                     localStorage.setItem("email",data.email)
                     localStorage.setItem("attendance",JSON.stringify({"M":false,"E":false}))
+                    localStorage.setItem("userId",data.id)
                 }
 
                 

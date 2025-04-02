@@ -46,7 +46,7 @@ function SignUp(){
             let collecteddata = precFormData.role === "Students" ? {...dataObj,...precFormData,...extraStu_data} : {...dataObj,...precFormData,...extraTea_data}
             console.log(collecteddata)
 
-            fetch("https://backend-api-cn4x.onrender.com/users",
+            fetch("https://backendapi-aexs.onrender.com/users",
                 {
                     method:"POST",
                     headers: { "Content-Type": "application/json" },

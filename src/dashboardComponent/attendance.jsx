@@ -1,10 +1,9 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { QrScanner } from "../JS_script/Qrscan"
 import styles from "../styling/Attendance.module.css"
 
 export function Attendance(){
 
-    const [state,setState] = useState(true)
 
     QrScanner()
     return(
@@ -12,8 +11,8 @@ export function Attendance(){
             <div className={styles.attendence_marking_field}>
         
                 <div className={styles.attendence_content} id="scrollTrig">
-                    <Interface setState={setState} state={state}/>
-                    <QrScanElemnt state={state}/>
+                    <Interface/>
+                    <QrScanElemnt/>
                 </div>
                 
             </div>
@@ -22,7 +21,7 @@ export function Attendance(){
     )
 }
 
-function Interface(data){
+function Interface(){
 
     return(
         <>
@@ -52,7 +51,7 @@ function Interface(data){
                             E <span id="E-sndStatus"> status: pending</span>
                         </h1>
                         <div className={styles.buttons}>
-                            <button className={styles.markPresent} id="E-Present" onClick={()=>{data.setState(!data.state)}}>mark me present</button>
+                            <button className={styles.markPresent} id="E-Present">mark me present</button>
                             <button className={styles.markAbsent} id="E-Absent">mark me absent</button>
                         </div>
                     </div>
@@ -64,14 +63,13 @@ function Interface(data){
 
 }
 import "../styling/QrElemnt.css"
+import { attendanceMap } from "../JS_script/allFetch"
 
 function QrScanElemnt(data){
-    let styless;
-     { styless = data.state?{display :"none"}:{display:"block"}}
 
     return(
         <>
-            <div id="reader" className=".reader" style={styless}></div>
+            <div id="reader" className=".reader" style={{display:"none"}}></div>
 
         </>
     )
