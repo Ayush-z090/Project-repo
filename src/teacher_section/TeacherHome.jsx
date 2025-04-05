@@ -1,11 +1,33 @@
 import { useEffect, useMemo, useState } from "react"
 import styles from "./styling/home.module.css"
+import { attendanceMap} from "../JS_script/allFetch"
 
 
 function T_home(){
     let [state,setState]= useState("M")
-    let [userData,setUserData]=useState(localStorage.getItem("name"))
+    let totalStudent = JSON.parse(localStorage.getItem("studentRollNum"))[0]
+    let [Morning,setMorning]= useState(0)
+    let [evening,setEvening]= useState(0)
 
+
+   
+        useEffect(()=>{
+            let tempMor= 0;
+            let tempEve = 0
+        if(totalStudent.length !== 0)
+            {
+
+                
+            attendanceMap("POST",localStorage.getItem("course"),totalStudent).then(data=>{
+                data.value.forEach(data=>{
+                    let {M,E} = data.attendance_status
+                    if(M) setMorning(++tempMor);
+                    if(E) setEvening(++tempEve)
+
+                })
+            })
+            
+        }},[])
 
 
     let formAction = (e)=>{
@@ -23,7 +45,7 @@ function T_home(){
         <div className={styles.userDetails}>
             <div className={styles.imgbody}></div>
             <div className={styles.infoBody}>
-                <h1>hello {userData}</h1>
+                <h1>hello {localStorage.getItem("name")}</h1>
                 <p>we hope u are having a good day</p>
             </div>
         </div>
@@ -31,25 +53,25 @@ function T_home(){
         { state === "M"?
             <AttendanceField 
             statusTime={"Morning"} 
-            value={{"present":32,"absent":10,"leave":0}}/>
+            value={{"present":Morning,"absent":totalStudent.length - Morning,"leave":0,"total":totalStudent.length}}/>
             :
             <AttendanceField 
             statusTime={"Evening"} 
-            value={{"present":22,"absent":20,"leave":0}}/>
+            value={{"present":evening,"absent":totalStudent.length - evening,"leave":0,"total":totalStudent.length}}/>
         }
         </>
     )
 }
 
 function AttendanceField({statusTime,value}){
-    
+
     return(
         <>
         <div className={styles.attendenceDetailsBox}>
             <h1>{statusTime} class summary</h1>
 
             <div className={styles.summarg_Field}>
-                <BoxInfo status="total student" value={42} icon={null}/>
+                <BoxInfo status="total student" value={value.total} icon={null}/>
                 <BoxInfo status="Present Today" value={value.present} icon={null}/>
                 <BoxInfo status="Absent Today" value={value.absent} icon={null}/>
                 <BoxInfo status="application" value={value.leave} icon={null}/>

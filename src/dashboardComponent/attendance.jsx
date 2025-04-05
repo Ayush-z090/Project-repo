@@ -23,6 +23,8 @@ export function Attendance(){
 
 function Interface(){
 
+    let {M,E} = JSON.parse(localStorage.getItem("attendance"))
+    console.log(M,E)
     return(
         <>
             <div className={styles.showed_content}>
@@ -39,7 +41,7 @@ function Interface(){
                 <div className="attendance-menupulation-field">
                     <div className={styles.box} id="morning-status">
                         <h1>
-                            M <span id="M-sndStatus"> status: pending</span>
+                            M <span id="M-sndStatus"> status: { M ?"present":"pending"}</span>
                         </h1>
                         <div className={styles.buttons}>
                             <button className={styles.markPresent} id="M-Present">mark me present</button>
@@ -48,7 +50,7 @@ function Interface(){
                     </div>
                     <div className={styles.box} id="evening-status">
                         <h1>
-                            E <span id="E-sndStatus"> status: pending</span>
+                            E <span id="E-sndStatus"> status: { E ?"present":"pending"}</span>
                         </h1>
                         <div className={styles.buttons}>
                             <button className={styles.markPresent} id="E-Present">mark me present</button>

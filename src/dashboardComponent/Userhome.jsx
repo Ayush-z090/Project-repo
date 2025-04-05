@@ -7,6 +7,7 @@ function UserHome(){
     let [stateOne,setOne] = useState(false)
     let [stateTwo,setTwo] = useState(false)
 
+
     let {M,E} =JSON.parse(localStorage.getItem("attendance"))
 
     let elementOne = (<div className={styles.dropdown_content} id="classses-show--dropdown">

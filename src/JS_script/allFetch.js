@@ -1,4 +1,5 @@
-const localHost = "https://backendapi-aexs.onrender.com"
+// const localHost = "https://backendapi-aexs.onrender.com"
+const localHost = "http://127.0.0.1:5000"
 
 
 
@@ -75,7 +76,7 @@ function logout(){
 
 
 
-
+// -> (string,string,number or array of numbers)
 function attendanceMap(method,course,rollnum=null){
 
     if(method === "GET" && course && rollnum){
@@ -85,7 +86,8 @@ function attendanceMap(method,course,rollnum=null){
     if(method === "POST" && course){
         return fetch(`${localHost}/getAttedance?role=Teachers&course=${course}`,{
             method:"POST",
-            headers:{"Content-Type":"application/json"}
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify(rollnum)
         })
         .then(data=>data.json())
     }

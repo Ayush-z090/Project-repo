@@ -1,21 +1,29 @@
 import { useEffect, useRef, useState } from "react";
 import { students } from "../../JS_script/Studentdata";
 import styles from "../styling/students.module.css"
+import { attendanceMap } from "../../JS_script/allFetch";
 
 
 function StudentList(){
 
     let [isEmptyField,setFieldCondition] = useState(true)
-    const [studentObj,SetStudentObj] = useState(JSON.parse(localStorage.getItem("studentRollNum")))
+    const [studentRollNum,setStudentRollCollection] = useState(JSON.parse(localStorage.getItem("studentRollNum"))[0])
+    let [stuArr,setStuArr]= useState([])
 
    
         useEffect(()=>{
-        if(studentObj.length !== 0)
+        if(studentRollNum.length !== 0)
             {
-            setFieldCondition(false)
+
+            attendanceMap("POST",localStorage.getItem("course"),studentRollNum).then(data=>{
+                setFieldCondition(false)
+                console.log(data.value)
+                setStuArr(data.value)
+            }).catch((rej)=>console.log(rej))
             
-            console.log(studentObj)
         }
+
+
         },[])
     
 
@@ -29,14 +37,14 @@ function StudentList(){
         }
 
     let emptyFieldElement = (<div style={EmptyFieldStyle}>
-            <h1>please enter the studnet in manage tab</h1>
+            <h1>no students here</h1>
         </div>)
 
     return(
         <>
         <div className={styles.stuDetails_Attendance}>
 
-            {isEmptyField ? emptyFieldElement : students.map(data=><Student name={data.name} rollno={data.rollNumber} attendace_arr={data.attendance} key={data.rollNumber}/>)}
+            {isEmptyField ? emptyFieldElement : stuArr.map(data=><Student name={data.name} rollno={data.dataUserId} attendace_arr={data.attendance_status} key={data.dataUserId}/>)}
          </div>
         </>
     )
