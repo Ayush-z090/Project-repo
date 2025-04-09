@@ -53,12 +53,17 @@
     padding: 1rem .5rem;
     margin-bottom: .5rem;
     border-radius: .5rem;
+    height: fit-content;
+    display: flex;
+    justify-content: space-around;
+
 }
 
 .box h1{
     display: flex;
     align-items: center;
     justify-content: space-around;
+    flex-direction: column;
 }
 
 .box >h1 >span{
@@ -80,12 +85,3 @@
     background-color: red;
 }
 
-.buttons button,.stopScan{
-    padding: .4rem .6rem;
-    font-family: "poppins", serif;
-    text-transform: capitalize;
-    border-radius: .4rem;
-    appearance: none;
-    font-weight: 600;
-
-}

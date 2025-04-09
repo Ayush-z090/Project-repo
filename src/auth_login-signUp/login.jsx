@@ -71,7 +71,11 @@ function LogIn(){
 
             
         })
-        .catch(rej=>console.log("error"))
+        .catch(rej=>{
+            alert("error occured : not connected to internet")
+            setLoader(false);
+            e.target.reset()
+        })
 
         
     }

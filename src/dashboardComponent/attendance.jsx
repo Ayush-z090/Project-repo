@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { QrScanner } from "../JS_script/Qrscan"
 import styles from "../styling/Attendance.module.css"
+import {Button} from "@mui/material"
 
 export function Attendance(){
 
@@ -27,6 +28,7 @@ function Interface(){
     console.log(M,E)
     return(
         <>
+        
             <div className={styles.showed_content}>
                 <div className={styles.userDetails}>
                     <span className={styles.image}></span>
@@ -41,21 +43,25 @@ function Interface(){
                 <div className="attendance-menupulation-field">
                     <div className={styles.box} id="morning-status">
                         <h1>
-                            M <span id="M-sndStatus"> status: { M ?"present":"pending"}</span>
+                            Morning
+                            <span id="M-sndStatus"> status: { M ?"present":"pending"}</span>
                         </h1>
-                        <div className={styles.buttons}>
-                            <button className={styles.markPresent} id="M-Present">mark me present</button>
-                            <button className={styles.markAbsent} id="M-Absent">mark me absent</button>
-                        </div>
+                        <Button
+                            variant="outlined" 
+                            id="M-Present">
+                                Scan
+                        </Button>
                     </div>
                     <div className={styles.box} id="evening-status">
                         <h1>
-                            E <span id="E-sndStatus"> status: { E ?"present":"pending"}</span>
+                            Evening
+                            <span id="E-sndStatus"> status: { E ?"present":"pending"}</span>
                         </h1>
-                        <div className={styles.buttons}>
-                            <button className={styles.markPresent} id="E-Present">mark me present</button>
-                            <button className={styles.markAbsent} id="E-Absent">mark me absent</button>
-                        </div>
+                        <Button
+                            variant="outlined" 
+                            id="E-Present">
+                                Scan
+                        </Button>
                     </div>
                 </div>
             </div>
@@ -65,9 +71,8 @@ function Interface(){
 
 }
 import "../styling/QrElemnt.css"
-import { attendanceMap } from "../JS_script/allFetch"
 
-function QrScanElemnt(data){
+function QrScanElemnt(){
 
     return(
         <>

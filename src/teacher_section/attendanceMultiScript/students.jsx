@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { students } from "../../JS_script/Studentdata";
 import styles from "../styling/students.module.css"
 import { attendanceMap } from "../../JS_script/allFetch";
 
@@ -50,7 +49,7 @@ function StudentList(){
     )
 }
 
-// passed obj arguunt contains obj-> {string,integer,array->[obj,obj],array->[obj,obj]}
+// passed obj arguunt contains obj-> {string,integer,obj,obj}
 
 function Student({name,rollno,attendace_arr,totalAttend_arr}){
 
