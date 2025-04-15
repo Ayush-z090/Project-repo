@@ -60,7 +60,6 @@
 .icon{
     width: 3rem;
     height: 3rem;
-    border: 1px solid;
 }
 .currenInfo p{
     font-family: poppins;
@@ -72,6 +71,11 @@
 .currenInfo > h1{
     font-size: .9rem;
 }
+
+.currenInfo{
+    padding: .3rem;
+}
+
 #box2{
     background-color: var(--color-palet-type2-);
 

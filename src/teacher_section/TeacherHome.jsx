@@ -1,6 +1,10 @@
 import { useEffect, useMemo, useState } from "react"
 import styles from "./styling/home.module.css"
 import { attendanceMap} from "../JS_script/allFetch"
+import PersonIcon from '@mui/icons-material/Person';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import Face2Icon from '@mui/icons-material/Face2';
+import DescriptionIcon from '@mui/icons-material/Description';
 
 
 function T_home(){
@@ -65,16 +69,18 @@ function T_home(){
 
 function AttendanceField({statusTime,value}){
 
+    const iconSty ={width:"100%",height:"100%"}
+
     return(
         <>
         <div className={styles.attendenceDetailsBox}>
             <h1>{statusTime} class summary</h1>
 
             <div className={styles.summarg_Field}>
-                <BoxInfo status="total student" value={value.total} icon={null}/>
-                <BoxInfo status="Present Today" value={value.present} icon={null}/>
-                <BoxInfo status="Absent Today" value={value.absent} icon={null}/>
-                <BoxInfo status="application" value={value.leave} icon={null}/>
+                <BoxInfo status="total student" value={value.total} icon={<PersonIcon sx={iconSty}/>}/>
+                <BoxInfo status="Present Today" value={value.present} icon={<PeopleAltIcon sx={iconSty}/>}/>
+                <BoxInfo status="Absent Today" value={value.absent} icon={<Face2Icon sx={iconSty}/>}/>
+                <BoxInfo status="application" value={value.leave} icon={<DescriptionIcon sx={iconSty}/>}/>
             </div>
         </div>
         </>
@@ -84,7 +90,7 @@ function AttendanceField({statusTime,value}){
 function BoxInfo({status,value,icon}){
     return(
         <div className={styles.box}>
-            <div className={styles.icon}></div>
+            <div className={styles.icon}>{icon}</div>
             <hgroup className={styles.currenInfo}>
                 <p>{value}</p>
                 <h1>{status}</h1>

@@ -4,6 +4,8 @@ import { addElment } from "../../JS_script/Addelemnt"
 import { FormPage } from "../../auth_page"
 import { changefield, dBReadFields } from "../../JS_script/allFetch"
 import { validationPartNum } from "../../JS_script/Validation_inter"
+import {Button} from "@mui/material"
+import DeleteIcon from "@mui/icons-material/Delete"
 
 import { QrcodeGen } from "../qrCodeGenrate"
 
@@ -237,9 +239,19 @@ function StudntDetailsform({Sno,rollnumber,RollNumCollection,setCollection}){
         <>
             <form className={styles.studentAddForm} onSubmit={FormHandling}>
                <ul>
-                <li style={{width:"2rem"}}>{Sno}</li>
-                <li> <input type="number" value={rollnumber} readOnly /></li>
-                <li><button>remove</button></li>
+                <li
+                 style={{width:"2rem"}}>
+                    {Sno}
+                </li>
+                <li>
+                    <input 
+                    type="number" 
+                    value={rollnumber} 
+                    readOnly />
+                    </li>
+                <li>
+                    <button><DeleteIcon/> delete</button>
+                    </li>
                </ul>
             </form>
         </>
