@@ -12,7 +12,7 @@ import { TeacherDashboard } from './DashboardTeacher'
 import { AttendSession } from './teacher_section/AttendenceSess'
 import { ManageStudent } from './teacher_section/attendanceMultiScript/Manage'
 import { StudentList } from './teacher_section/attendanceMultiScript/students'
-
+import { UserProfileEdit } from './userDataSettings'
 
 
 
@@ -23,6 +23,7 @@ function App(){
     <Route path="/user_dashboard" element={<DashBoard/>}>
         <Route index element={<UserHome/>}/>
         <Route path='Attendence' element={<Attendance/>} />
+        <Route path='setting' element={<UserProfileEdit/>}/>
     </Route>
     )
     
@@ -34,6 +35,7 @@ function App(){
                     <Route index element={<StudentList/>}/>
                     <Route path={"ManageStudent"} element={<ManageStudent/>}/>
             </Route>
+            <Route path='setting' element={<UserProfileEdit/>}/>
         </Route>
     )
 

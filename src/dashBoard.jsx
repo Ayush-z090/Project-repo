@@ -61,8 +61,8 @@ function MenuTopBar({Showclass,tothe}){
         <>
             <div className={`${styles.menu_side_bar} ${Showclass? styles.hide: ""} `}>
                 <ul className={styles.section_component}>
-                    <Link href="#profile" className={styles.section} id="profile">
-                        Profile
+                    <Link to="setting" className={styles.section} id="profile">
+                        Setting
                     <hr className={styles.underLine}/>
                     </Link>
                     <Link to={tothe}  className={styles.section} id="home">
