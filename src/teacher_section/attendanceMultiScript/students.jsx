@@ -1,31 +1,24 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "../styling/students.module.css"
 import { attendanceMap } from "../../JS_script/allFetch";
+import { useQuery,useQueryClient } from '@tanstack/react-query'
 
 
 function StudentList(){
 
     let [isEmptyField,setFieldCondition] = useState(true)
     const [studentRollNum,setStudentRollCollection] = useState(JSON.parse(localStorage.getItem("studentRollNum"))[0])
-    let [stuArr,setStuArr]= useState([])
+    const stuData = useQuery({
+        queryKey:["StudentRoll",isEmptyField,studentRollNum],
+        queryFn:()=>attendanceMap("POST",localStorage.getItem("course"),studentRollNum),
+        refetchInterval:1000* 10
+    })
 
-   
-        useEffect(()=>{
-        if(studentRollNum.length !== 0)
-            {
+    useEffect(()=>{
+        if( stuData.isSuccess && studentRollNum.length !== 0)  setFieldCondition(false);
 
-            attendanceMap("POST",localStorage.getItem("course"),studentRollNum).then(data=>{
-                setFieldCondition(false)
-                console.log(data.value)
-                setStuArr(data.value)
-            }).catch((rej)=>console.log(rej))
-            
-        }
-
-
-        },[])
+    },[stuData.isSuccess])
     
-
     const EmptyFieldStyle = {
         "backgroundColor": "rgba(0, 0, 0, 0.096)",
         "padding":"3rem 0 ",
@@ -42,8 +35,7 @@ function StudentList(){
     return(
         <>
         <div className={styles.stuDetails_Attendance}>
-
-            {isEmptyField ? emptyFieldElement : stuArr.map(data=><Student name={data.name} rollno={data.dataUserId} attendace_arr={data.attendance_status} key={data.dataUserId}/>)}
+            {stuData.isSuccess && !isEmptyField ? stuData.data.value.map(data=><Student name={data.name} rollno={data.dataUserId} attendace_arr={data.attendance_status} key={data.dataUserId}/>):(emptyFieldElement)}
          </div>
         </>
     )
@@ -93,7 +85,6 @@ function RadioArea({time,attence,student_Name,student_rollNum}){
         //we are adding below two key (name,rollnumber) with their value
         data["name"]=student_Name;
         data["rollNumber"]=student_rollNum;
-        console.log("Submitted Data:", data); // Log data
 
     }
 
@@ -101,7 +92,6 @@ function RadioArea({time,attence,student_Name,student_rollNum}){
     // when the handlechange triggers, the reffrece of form at the moment the value changes that moment filds value will be submitted
     const handleChange = () => {
         if (formReff.current) {    
-            console.log("change deteceted")
           formReff.current.requestSubmit(); // Submit the form
         }
       };

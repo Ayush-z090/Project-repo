@@ -4,24 +4,9 @@ import { changefield, dBReadFields } from "../JS_script/allFetch"
 import { QRCodeCanvas } from "qrcode.react"
 import html2canvas from "html2canvas"
 
-function QrcodeGen({qrData}){
+function QrcodeGen({codeData,setCodeData}){
 
     let qrcodeRef = useRef(null)
-    let [codeData,setCodeData] = useState(null)
-
-    useEffect(()=>{
-      dBReadFields("POST",{isSess:1})
-    .then(data=>{
-      let obj={...data.val.isSess}
-       console.log(obj)
-        if (obj.QrCodeData){
-          setCodeData(obj.QrCodeData)
-        }
-        else{
-          alert(data.message)
-        }
-      })
-    },[])
 
   let downloadHandleClick = (e)=>{
     if(qrcodeRef.current){

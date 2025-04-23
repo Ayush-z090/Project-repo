@@ -8,6 +8,7 @@ import {Button} from "@mui/material"
 import DeleteIcon from "@mui/icons-material/Delete"
 
 import { QrcodeGen } from "../qrCodeGenrate"
+import { useQuery } from "@tanstack/react-query"
 
 function ManageStudent(){
 
@@ -19,23 +20,33 @@ function ManageStudent(){
     // the sessional year i.e. 1,2,3 depending on the teacher, which class year he/she is in 
     let [SessChossenYear,setSessData] = useState(null)
 
-    let [AddedRollNum,setAddedRollnum] = useState([])
+    
+    let [AddedRollNum,setAddedRollnum] = useState(JSON.parse(localStorage.getItem("studentRollNum"))[0])
+
+    let [QrCode,setQr] = useState(null)
 
     // fetch function to read
 
+
+    let FetchObj = useQuery({
+        queryKey:["sessional_year","qrcode",isSessionStart],
+        queryFn:()=> dBReadFields("POST",{isSess:1}),
+        refetchInterval:1000 *10
+    })
+
+
     useEffect(()=>{
-        dBReadFields("POST",{isSess:1}).then(data=>{
-            let obj={...data.val.isSess}
-            console.log("i call databse",obj,data)
-            if (obj.status && isSessionStart){
-                setSessData(obj.sessional_year)
-                setAddedRollnum(obj.sess_users)
-            }
+       
+        if (FetchObj.isSuccess){
+            console.log(`fetchdata.issucces : ${FetchObj.isSuccess} dadta : ${FetchObj.data.val.isSess.QrCodeData}`)
+            let obj = FetchObj.data.val.isSess;
+            setSessData(obj.sessional_year);
+            setQr(FetchObj.data.val.isSess.QrCodeData)
+        }
+        if(FetchObj.isError) setSessData(0)
             
-        }).catch(rej=>console.log("server error....."))
     
-    },[])
-    console.log(AddedRollNum,SessChossenYear,"ggvj")
+    },[FetchObj.isSuccess])
 
 
     // this element is shown when the sessionn isnt started yet
@@ -43,7 +54,6 @@ function ManageStudent(){
         <h1>no Session added yet</h1>
     </div>)
 
-    console.log(isSessionStart)
 
     return(
         <>
@@ -53,7 +63,7 @@ function ManageStudent(){
                 <h1>{isSessionStart ?"" :"start session"} </h1>
             </hgroup>
             
-            { isSessionStart ? <QrcodeGen qrData={"hello world"}/> :  <Sess_Form setData={setSessData} Data={SessChossenYear} setSessionCondition={setSession}/>
+            { isSessionStart ? <QrcodeGen codeData={QrCode} setCodeData={setQr}/> :  <Sess_Form setData={setSessData} Data={SessChossenYear} setSessionCondition={setSession}/>
         }
 
         </div>
