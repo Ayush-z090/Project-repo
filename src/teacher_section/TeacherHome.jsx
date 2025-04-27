@@ -9,7 +9,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 
 function T_home(){
     let [state,setState]= useState("M")
-    let totalStudent = JSON.parse(localStorage.getItem("studentRollNum"))[0]
+    let totalStudent = JSON.parse(localStorage.getItem("studentRollNum"))
     let [Morning,setMorning]= useState(0)
     let [evening,setEvening]= useState(0)
 

@@ -21,9 +21,9 @@ function ManageStudent(){
     let [SessChossenYear,setSessData] = useState(null)
 
     
-    let [AddedRollNum,setAddedRollnum] = useState(JSON.parse(localStorage.getItem("studentRollNum"))[0])
+    let [AddedRollNum,setAddedRollnum] = useState(JSON.parse(localStorage.getItem("studentRollNum")))
 
-    let [QrCode,setQr] = useState(null)
+    let [QrCode,setQr] = useState("hello")
 
     // fetch function to read
 
@@ -34,11 +34,11 @@ function ManageStudent(){
         refetchInterval:1000 *10
     })
 
+    console.log(QrCode,FetchObj.data)
 
     useEffect(()=>{
        
         if (FetchObj.isSuccess){
-            console.log(`fetchdata.issucces : ${FetchObj.isSuccess} dadta : ${FetchObj.data.val.isSess.QrCodeData}`)
             let obj = FetchObj.data.val.isSess;
             setSessData(obj.sessional_year);
             setQr(FetchObj.data.val.isSess.QrCodeData)
@@ -171,16 +171,19 @@ function Sess_elemnt({courseName,Year,rollnumbers,addRollnumbers}){
     // this hook keeps track of all the added roll numbers
     // let [AddedRollNum,setAddedRollnum] = useState([])
 
-    validationPartNum()
+    validationPartNum() // validate the input field
     let AddStudentFormHandling =(e)=>{
 
         e.preventDefault()
         let formData = new FormData(e.target)
         let Roll_number = formData.get("Rollnumber").trim()
+        // check the user Input
         if ( !rollnumbers.includes(Roll_number) && Roll_number.trim() !== ""){
+            // add the input to the collection
             addRollnumbers([...rollnumbers,Roll_number])
+            // update the collection in localStorage 
             localStorage.setItem("studentRollNum",JSON.stringify([...rollnumbers,Roll_number]))
-            // to add rollnumbers
+            // add the roll no in the database of user Collection
             changefield({"$push":{"isSess.sess_users":Roll_number}}).
             then(res=>{
                 if (!res) console.log("ro resonspe")

@@ -41,7 +41,7 @@ function LogIn(){
                 if (data.role === "Teachers")
                     {
                     localStorage.setItem("isSess",JSON.stringify(data.isSess.status))
-                    localStorage.setItem("studentRollNum",JSON.stringify([data.isSess.sess_users]))
+                    localStorage.setItem("studentRollNum",JSON.stringify(data.isSess.sess_users))
                     }
                 else{
                     localStorage.setItem("email",data.email)

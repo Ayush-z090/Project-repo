@@ -2,12 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import styles from "../styling/students.module.css"
 import { attendanceMap } from "../../JS_script/allFetch";
 import { useQuery,useQueryClient } from '@tanstack/react-query'
+import { List_Element, List_Element_default } from "./stud_script_comp";
 
 
 function StudentList(){
 
     let [isEmptyField,setFieldCondition] = useState(true)
-    const [studentRollNum,setStudentRollCollection] = useState(JSON.parse(localStorage.getItem("studentRollNum"))[0])
+    const [studentRollNum,setStudentRollCollection] = useState(JSON.parse(localStorage.getItem("studentRollNum")))
+    const [unLoggedStudent,setUnlogged]= useState(null)
+
+
     const stuData = useQuery({
         queryKey:["StudentRoll",isEmptyField,studentRollNum],
         queryFn:()=>attendanceMap("POST",localStorage.getItem("course"),studentRollNum),
@@ -15,7 +19,9 @@ function StudentList(){
     })
 
     useEffect(()=>{
-        if( stuData.isSuccess && studentRollNum.length !== 0)  setFieldCondition(false);
+        if( stuData.isSuccess && studentRollNum.length !== 0)  {
+            setUnlogged(twoArrInterSection(stuData.data.value.map(data=>data.dataUserId),studentRollNum))
+            setFieldCondition(false);}
 
     },[stuData.isSuccess])
     
@@ -32,11 +38,39 @@ function StudentList(){
             <h1>no students here</h1>
         </div>)
 
+        
+    
+
     return(
         <>
         <div className={styles.stuDetails_Attendance}>
-            {stuData.isSuccess && !isEmptyField ? stuData.data.value.map(data=><Student name={data.name} rollno={data.dataUserId} attendace_arr={data.attendance_status} key={data.dataUserId}/>):(emptyFieldElement)}
+            <List_Element_default
+            title={"students"}
+            Elements={
+                stuData.isSuccess && !isEmptyField ? 
+                stuData.data.value.map(data=>
+                <Student 
+                name={data.name} 
+                rollno={data.dataUserId} 
+                attendace_arr={data.attendance_status} 
+                key={data.dataUserId}/>)
+                :(emptyFieldElement)}
+            />
+            <List_Element
+            title={"Not logged Student"} 
+            Elements={
+                unLoggedStudent ? 
+                unLoggedStudent.map(data=> 
+                <Student 
+                rollno={data} 
+                name={"unknown"}
+                attendace_arr={{
+                    'M':false,
+                    'E':false
+                }}/>):""}
+            />
          </div>
+
         </>
     )
 }
@@ -117,6 +151,14 @@ function RadioArea({time,attence,student_Name,student_rollNum}){
 
         </>
     )
+}
+
+function twoArrInterSection(arr2,arr1){
+    let arr = []
+    for (let i of arr1){
+        if (!arr2.includes(i)) arr.push(i)
+    }
+    return arr
 }
 
 export {StudentList}
